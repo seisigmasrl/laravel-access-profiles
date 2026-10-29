@@ -2,7 +2,7 @@
 
 Contributions are welcome. Please read this first.
 
-The user documentation is at [laravel-access-profiles.seisigma-srl.workers.dev](https://laravel-access-profiles.seisigma-srl.workers.dev/docs/getting-started/). Its pages live in `website/src/content/docs/`; a change to public behaviour updates the matching page in the same PR.
+The user documentation is at [laravel-access-profiles.packages.seisigma.co](https://laravel-access-profiles.packages.seisigma.co/docs/getting-started/). Its pages live in `website/src/content/docs/`; a change to public behaviour updates the matching page in the same PR.
 
 ## Before you open a pull request
 

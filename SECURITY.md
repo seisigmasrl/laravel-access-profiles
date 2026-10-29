@@ -14,4 +14,4 @@ You will get a reply within 5 working days. Fixes ship as a patch release with a
 
 ## Supported versions
 
-Only the latest minor release receives security fixes. The supported release lines are listed in [Upgrading](https://laravel-access-profiles.seisigma-srl.workers.dev/docs/upgrading/).
+Only the latest minor release receives security fixes. The supported release lines are listed in [Upgrading](https://laravel-access-profiles.packages.seisigma.co/docs/upgrading/).

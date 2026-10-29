@@ -14,4 +14,4 @@ Every release follows these steps. The website reads the version from `CHANGELOG
 3. Tag the merge commit and push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
    The `changelog-guard` workflow fails when `CHANGELOG.md` has no `## X.Y.Z - YYYY-MM-DD` heading.
 4. Create the GitHub Release for the tag. Copy the notes from the `CHANGELOG.md` entry.
-5. Packagist updates from the tag. The [website](https://laravel-access-profiles.seisigma-srl.workers.dev) rebuilds on the push to `main` and shows the new version and [changelog](https://laravel-access-profiles.seisigma-srl.workers.dev/docs/changelog/).
+5. Packagist updates from the tag. The [website](https://laravel-access-profiles.packages.seisigma.co) rebuilds on the push to `main` and shows the new version and [changelog](https://laravel-access-profiles.packages.seisigma.co/docs/changelog/).
