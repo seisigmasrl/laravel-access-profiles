@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Static site only: no Worker script. Cloudflare Workers Builds runs
+  // `npm run build`, then `npx wrangler deploy` from this folder.
+  "name": "laravel-access-profiles",
+  "compatibility_date": "2026-10-29",
+  "assets": {
+    "directory": "./dist",
+    // Astro writes each page as <route>/index.html (build.format "directory").
+    "html_handling": "auto-trailing-slash",
+    // Serve dist/404.html (from src/pages/404.astro) with a 404 status.
+    "not_found_handling": "404-page"
+  }
+}

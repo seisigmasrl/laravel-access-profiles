@@ -19,9 +19,9 @@ Every release follows these steps. The website reads the version from `CHANGELOG
 
 ## Deploy
 
-The `website` workflow builds `website/` and deploys `website/dist` to Cloudflare Pages.
+Cloudflare Workers Builds deploys the website. It is not a GitHub workflow.
 
-- It runs on a push to `main` that changes `website/**` or `CHANGELOG.md`, or by hand (`workflow_dispatch`).
-- It needs two repository secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
-- It deploys to the Pages project `laravel-access-profiles`. Create that project once in Cloudflare before the first run.
-- After a release tag, run the workflow by hand so the footer shows the new version.
+- It deploys from `main` when a push changes `website/` or `CHANGELOG.md`.
+- It builds in `website/` with `npm run build`, then runs `npx wrangler deploy`.
+- The Worker is `laravel-access-profiles`. Its settings are in `website/wrangler.jsonc`.
+- After a release tag, open the Worker in the Cloudflare dashboard and retry the latest deployment. The footer then shows the new Packagist version.
