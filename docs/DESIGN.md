@@ -1,7 +1,7 @@
 # laravel-access-profiles — Design
 
 Status: released. See [CHANGELOG.md](../CHANGELOG.md). Decisions are in §9.
-User documentation: [laravel-access-profiles.seisigma-srl.workers.dev](https://laravel-access-profiles.seisigma-srl.workers.dev/docs/getting-started/).
+User documentation: [laravel-access-profiles.packages.seisigma.co](https://laravel-access-profiles.packages.seisigma.co/docs/getting-started/).
 Package: `seisigmasrl/laravel-access-profiles`. Requires PHP 8.3+ and Laravel 12.69+ or 13.30+.
 The package includes the resolver, models, builders, queries, events and commands described below.
 
