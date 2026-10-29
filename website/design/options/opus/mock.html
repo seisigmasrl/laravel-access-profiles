@@ -1,0 +1,970 @@
+<!doctype html>
+<!--
+  Direction: "Quiet Docs"
+  1. Stays close to the owner's examples: a short headline that names the job, an install line with a copy button, and file-labelled code with line numbers.
+  2. Feels safe, precise and calm: white and slate surfaces, lots of air, and a teal accent used only for links, copy buttons and the one "granted" cell.
+  3. Every section reads like good documentation, with a claim, plain facts and the code or diagram next to it. There is no social proof, and no fact comes from outside the pack.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Access Profiles: different permissions in different parts of a tenant</title>
+<meta name="description" content="Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Color: light */
+  --c-bg:#FFFFFF;
+  --c-surface:#F8FAFC;
+  --c-surface-2:#F1F5F9;
+  --c-border:#E2E8F0;
+  --c-border-strong:#CBD5E1;
+  --c-text:#1E293B;
+  --c-muted:#475569;
+  --c-subtle:#64748B;
+  --c-accent:#1F6F78;
+  --c-accent-hover:#185A62;
+  --c-on-accent:#FFFFFF;
+  --c-accent-tint:#E8F3F4;
+  --c-deny:#A3262F;
+  --c-deny-tint:#FBEDEE;
+  --c-code-bg:#F8FAFC;
+  --c-focus:#1F6F78;
+  --logo-stroke:#1E293B;
+  --logo-accent:#1F6F78;
+
+  /* Type */
+  --font-sans:"Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-xs:0.8125rem;
+  --fs-sm:0.9375rem;
+  --fs-base:1.0625rem;
+  --fs-lg:1.25rem;
+  --fs-xl:1.5rem;
+  --fs-2xl:clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  --fs-3xl:clamp(2.25rem, 1.55rem + 2.8vw, 3.5rem);
+  --fs-code:0.875rem;
+  --lh-tight:1.15;
+  --lh-snug:1.35;
+  --lh-body:1.65;
+  --lh-code:1.7;
+
+  /* Space */
+  --space-1:0.25rem;
+  --space-2:0.5rem;
+  --space-3:0.75rem;
+  --space-4:1rem;
+  --space-5:1.5rem;
+  --space-6:2rem;
+  --space-7:3rem;
+  --space-8:4rem;
+  --space-section:clamp(4.5rem, 3rem + 5vw, 8rem);
+  --gutter:clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
+
+  /* Shape and layout */
+  --radius-sm:6px;
+  --radius-md:10px;
+  --radius-lg:14px;
+  --measure:70ch;
+  --container:74rem;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --c-bg:#0B1220;
+    --c-surface:#111A2B;
+    --c-surface-2:#16213A;
+    --c-border:#23304A;
+    --c-border-strong:#33415C;
+    --c-text:#E2E8F0;
+    --c-muted:#A6B3C6;
+    --c-subtle:#8A99AF;
+    --c-accent:#4FB3BD;
+    --c-accent-hover:#6CC3CC;
+    --c-on-accent:#0B1220;
+    --c-accent-tint:#12303A;
+    --c-deny:#F2A0A8;
+    --c-deny-tint:#3A1A21;
+    --c-code-bg:#0E1626;
+    --c-focus:#4FB3BD;
+    --logo-stroke:#E2E8F0;
+    --logo-accent:#4FB3BD;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:auto}
+body{
+  margin:0;background:var(--c-bg);color:var(--c-text);
+  font-family:var(--font-sans);font-size:var(--fs-base);line-height:var(--lh-body);
+  font-feature-settings:"ss01";-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
+h1,h2,h3{font-weight:700;letter-spacing:-0.015em;line-height:var(--lh-tight)}
+a{color:var(--c-accent);text-underline-offset:0.2em;text-decoration-thickness:1px}
+a:hover{color:var(--c-accent-hover);text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--c-focus);outline-offset:3px;border-radius:4px}
+code,pre{font-family:var(--font-mono);font-size:var(--fs-code)}
+:not(pre)>code{
+  background:var(--c-surface-2);border:1px solid var(--c-border);
+  padding:0.05em 0.35em;border-radius:4px;font-size:0.86em;white-space:nowrap;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:var(--space-4);top:-3rem;background:var(--c-accent);color:var(--c-on-accent);padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);z-index:10}
+.skip:focus{top:var(--space-4)}
+
+.container{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:var(--space-section);border-top:1px solid var(--c-border)}
+.eyebrow{font-size:var(--fs-xs);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--c-subtle);margin-bottom:var(--space-3)}
+.section-head{max-width:var(--measure);margin-bottom:var(--space-7)}
+.section-head h2{font-size:var(--fs-2xl)}
+.section-head p{margin-top:var(--space-4);color:var(--c-muted)}
+.muted{color:var(--c-muted)}
+
+/* Header */
+.site-header{border-bottom:1px solid var(--c-border)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);min-height:4rem}
+.lockup{display:inline-flex;align-items:center;gap:0.6rem;color:var(--c-text);text-decoration:none;font-weight:600;font-size:1.0625rem;letter-spacing:-0.01em;white-space:nowrap}
+.lockup:hover{color:var(--c-text);text-decoration:none}
+.logo{width:28px;height:28px;flex:none}
+.logo g{stroke:var(--logo-stroke)}
+.logo>rect{fill:var(--logo-accent)}
+.nav ul{list-style:none;padding:0;display:flex;gap:clamp(0.9rem, 0.5rem + 1.5vw, 2rem)}
+.nav a{color:var(--c-muted);text-decoration:none;font-size:var(--fs-sm);font-weight:500}
+.nav a:hover{color:var(--c-text)}
+
+/* Hero */
+.hero{padding-block:clamp(3.5rem, 2rem + 6vw, 7.5rem) clamp(4rem, 2.5rem + 6vw, 8rem)}
+.hero .container{display:grid;gap:var(--space-7);align-items:center}
+@media (min-width:64rem){.hero .container{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:var(--space-8)}}
+.hero h1{font-size:var(--fs-3xl);letter-spacing:-0.025em;max-width:15ch}
+.hero .lead{margin-top:var(--space-5);font-size:var(--fs-lg);line-height:1.55;color:var(--c-muted);max-width:40ch}
+.hero-actions{margin-top:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);align-items:flex-start}
+.meta{margin-top:var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-4);padding:0;list-style:none;font-size:var(--fs-xs);color:var(--c-subtle);font-weight:500}
+.meta li{display:inline-flex;align-items:center;gap:var(--space-2)}
+.meta li+li::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--c-border-strong);margin-right:var(--space-2)}
+
+/* Command line */
+.cmd{
+  display:flex;align-items:center;gap:var(--space-3);width:100%;max-width:34rem;
+  background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-md);
+  padding:0.4rem 0.4rem 0.4rem var(--space-4);min-width:0;
+}
+.cmd code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;font-size:var(--fs-code);padding-block:0.45rem;scrollbar-width:thin}
+.cmd .prompt{color:var(--c-subtle);margin-right:0.6ch;user-select:none}
+.copy{
+  flex:none;font:inherit;font-size:var(--fs-xs);font-weight:600;cursor:pointer;
+  border-radius:var(--radius-sm);padding:0.45rem 0.8rem;min-height:2.25rem;min-width:4.5rem;
+  background:transparent;color:var(--c-accent);border:1px solid var(--c-border-strong);
+}
+.copy:hover{border-color:var(--c-accent);background:var(--c-accent-tint)}
+.copy.primary{background:var(--c-accent);color:var(--c-on-accent);border-color:var(--c-accent)}
+.copy.primary:hover{background:var(--c-accent-hover);border-color:var(--c-accent-hover)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:var(--space-2);min-height:2.75rem;
+  padding:0.55rem 1.1rem;border:1px solid var(--c-border-strong);border-radius:var(--radius-md);
+  color:var(--c-text);text-decoration:none;font-weight:600;font-size:var(--fs-sm);
+}
+.btn-secondary:hover{color:var(--c-text);border-color:var(--c-text);text-decoration:none}
+
+/* Code blocks */
+.code{
+  background:var(--c-code-bg);border:1px solid var(--c-border);border-radius:var(--radius-lg);
+  overflow:hidden;min-width:0;
+}
+.code+.code{margin-top:var(--space-4)}
+.code-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:0.4rem 0.5rem 0.4rem var(--space-4);border-bottom:1px solid var(--c-border);background:var(--c-surface)}
+.file{font-family:var(--font-mono);font-size:var(--fs-xs);font-weight:500;color:var(--c-muted);display:inline-flex;align-items:center;gap:var(--space-2)}
+.file::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c-accent)}
+.code-body{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.code-body pre{margin:0;padding:var(--space-4) 0;line-height:var(--lh-code)}
+.gutter{padding-inline:var(--space-4) var(--space-3)!important;color:var(--c-subtle);text-align:right;user-select:none;border-right:1px solid var(--c-border)}
+.src{overflow-x:auto;padding-inline:var(--space-4) var(--space-5)!important;color:var(--c-text);tab-size:4;scrollbar-width:thin}
+.src:focus-visible{outline-offset:-2px}
+.src .s{color:var(--c-accent)}
+.src .v{font-weight:500}
+.src .c{font-weight:500}
+.src .d{color:var(--c-deny)}
+
+/* Problem */
+.problems{list-style:none;padding:0;display:grid;gap:var(--space-5) var(--space-7);counter-reset:p}
+@media (min-width:48rem){.problems{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.problems li{counter-increment:p;padding-left:2.75rem;position:relative;max-width:var(--measure)}
+.problems li::before{
+  content:counter(p);position:absolute;left:0;top:0.1rem;width:1.75rem;height:1.75rem;
+  border:1px solid var(--c-border-strong);border-radius:var(--radius-sm);
+  display:grid;place-items:center;font-size:var(--fs-xs);font-weight:600;color:var(--c-muted);
+}
+.problems h3{font-size:var(--fs-base);font-weight:700;margin-bottom:var(--space-1)}
+.problems p{color:var(--c-muted)}
+
+/* Value points */
+.feature{display:grid;gap:var(--space-6);align-items:center;padding-block:var(--space-6)}
+.feature+.feature{border-top:1px dashed var(--c-border)}
+@media (min-width:56rem){.feature{grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:var(--space-8)}}
+.num{font-family:var(--font-mono);font-size:var(--fs-xs);color:var(--c-accent);font-weight:500;display:block;margin-bottom:var(--space-2)}
+.feature h3,.points h3,.step h3{font-size:var(--fs-xl);letter-spacing:-0.015em}
+.feature p,.step p{margin-top:var(--space-3);color:var(--c-muted);max-width:52ch}
+.diagram{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:var(--space-5)}
+.diagram svg{display:block;width:100%;height:auto;font-family:var(--font-sans)}
+.diagram figcaption{margin-top:var(--space-3);font-size:var(--fs-xs);color:var(--c-subtle)}
+.d-box{fill:var(--c-bg);stroke:var(--c-border-strong);stroke-width:1.5}
+.d-tenant{fill:none;stroke:var(--c-text);stroke-width:2}
+.d-acc{fill:var(--c-accent-tint);stroke:var(--c-accent);stroke-width:2}
+.d-deny{fill:var(--c-deny-tint);stroke:var(--c-deny);stroke-width:2}
+.d-t{fill:var(--c-text);font-size:15px;font-weight:600}
+.d-m{fill:var(--c-muted);font-size:13px;font-weight:500}
+.d-a{fill:var(--c-accent);font-size:13px;font-weight:600}
+.d-n{fill:var(--c-deny);font-size:15px;font-weight:700}
+.d-y{fill:var(--c-accent);font-size:15px;font-weight:700}
+.d-line{stroke:var(--c-subtle);stroke-width:1.5;fill:none}
+.d-head{fill:var(--c-subtle)}
+.d-mono{font-family:var(--font-mono);font-size:13px;font-weight:500;fill:var(--c-text)}
+
+.points{list-style:none;padding:0;margin-top:var(--space-6);display:grid;gap:var(--space-6) var(--space-8);border-top:1px dashed var(--c-border);padding-top:var(--space-7)}
+@media (min-width:48rem){.points{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.points h3{font-size:var(--fs-lg)}
+.points p{margin-top:var(--space-2);color:var(--c-muted);max-width:52ch}
+
+/* Code walk-through */
+.step{display:grid;gap:var(--space-5);padding-block:var(--space-6);align-items:start}
+.step+.step{border-top:1px dashed var(--c-border)}
+@media (min-width:56rem){.step{grid-template-columns:minmax(0,0.8fr) minmax(0,1.2fr);gap:var(--space-8)}}
+.note{margin-top:var(--space-4);font-size:var(--fs-sm);color:var(--c-muted);border-left:2px solid var(--c-accent);padding-left:var(--space-4);max-width:52ch}
+
+/* Comparison */
+.table-hint{font-size:var(--fs-xs);color:var(--c-subtle);margin-bottom:var(--space-3)}
+@media (min-width:72rem){.table-hint{display:none}}
+.table-wrap{overflow-x:auto;border:1px solid var(--c-border);border-radius:var(--radius-lg);scrollbar-width:thin}
+.table-wrap:focus-visible{outline-offset:2px}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:62rem;font-size:var(--fs-sm);line-height:1.5}
+caption{text-align:left;padding:var(--space-4) var(--space-5);font-size:var(--fs-xs);color:var(--c-subtle);border-bottom:1px solid var(--c-border);caption-side:top}
+th,td{padding:0.8rem 1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--c-border)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+thead th{font-size:var(--fs-xs);font-weight:700;color:var(--c-text);background:var(--c-surface);white-space:nowrap}
+th[scope="row"],thead th:first-child{
+  position:sticky;left:0;z-index:1;background:var(--c-bg);font-weight:600;
+  width:11rem;min-width:9rem;border-right:1px solid var(--c-border);
+}
+thead th:first-child{background:var(--c-surface);z-index:2}
+td{color:var(--c-muted)}
+.ours{background:var(--c-accent-tint);color:var(--c-text);font-weight:600}
+thead th.ours{color:var(--c-accent);background:var(--c-accent-tint)}
+.none{color:var(--c-subtle)}
+td code{white-space:nowrap}
+.reading{margin-top:var(--space-6);display:grid;gap:var(--space-3);max-width:var(--measure);padding:0;list-style:none}
+.reading li{padding-left:var(--space-5);position:relative;color:var(--c-muted)}
+.reading li::before{content:"";position:absolute;left:0;top:0.75em;width:0.6rem;height:1px;background:var(--c-border-strong)}
+.reading strong{color:var(--c-text);font-weight:600}
+.more{margin-top:var(--space-5);font-weight:600;font-size:var(--fs-sm)}
+
+/* When not */
+.not-list{list-style:none;padding:0;border:1px solid var(--c-border);border-radius:var(--radius-lg);max-width:52rem}
+.not-list li{display:grid;gap:var(--space-1) var(--space-5);padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--c-border)}
+.not-list li:last-child{border-bottom:0}
+@media (min-width:44rem){.not-list li{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}}
+.not-list .if{font-weight:600}
+.not-list .then{color:var(--c-muted)}
+.not-list .then::before{content:"→ ";color:var(--c-subtle)}
+@media (min-width:44rem){.not-list .then::before{content:"→";margin-right:var(--space-3)}}
+.not-list li.warn .if{color:var(--c-deny)}
+
+/* Install steps */
+.steps{list-style:none;padding:0;counter-reset:s;display:grid;gap:var(--space-5);max-width:48rem}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:var(--space-4);align-items:start}
+.steps li::before{content:counter(s);font-family:var(--font-mono);font-size:var(--fs-sm);color:var(--c-accent);font-weight:500;padding-top:0.7rem;text-align:right}
+.steps .cmd{max-width:none}
+.steps p{padding-top:0.6rem;color:var(--c-muted)}
+.steps p strong{color:var(--c-text);font-weight:600}
+
+/* FAQ */
+.faq{display:grid;gap:0;border-top:1px solid var(--c-border)}
+@media (min-width:56rem){.faq{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--space-8)}}
+.faq div{padding-block:var(--space-5);border-bottom:1px solid var(--c-border)}
+.faq dt{font-weight:700;font-size:var(--fs-base)}
+.faq dd{margin-top:var(--space-2);color:var(--c-muted);max-width:56ch}
+
+/* Final install */
+.final{text-align:left}
+.final-box{border:1px solid var(--c-border);border-radius:var(--radius-lg);background:var(--c-surface);padding:clamp(1.5rem, 1rem + 3vw, 3.5rem);display:grid;gap:var(--space-5)}
+.final-box h2{font-size:var(--fs-2xl)}
+.final-box .cmd{max-width:40rem;background:var(--c-bg)}
+.final-links{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-5);font-weight:600;font-size:var(--fs-sm)}
+.caution{font-size:var(--fs-sm);color:var(--c-muted);max-width:var(--measure)}
+
+/* Footer */
+.site-footer{border-top:1px solid var(--c-border);padding-block:var(--space-7);font-size:var(--fs-sm);color:var(--c-muted)}
+.site-footer .container{display:grid;gap:var(--space-6)}
+@media (min-width:56rem){.site-footer .container{grid-template-columns:minmax(0,1fr) auto;align-items:start}}
+.site-footer p+p{margin-top:var(--space-2)}
+.foot-links{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5)}
+.foot-links a{color:var(--c-muted);text-decoration:none}
+.foot-links a:hover{color:var(--c-text);text-decoration:underline}
+
+@media (prefers-reduced-motion:no-preference){
+  .copy,.btn-secondary,a{transition:color .15s ease, background-color .15s ease, border-color .15s ease}
+}
+/* Root fix (phone 390 px): grid children may shrink; header wraps. */
+.hero .container>*{min-width:0}
+.table-wrap{position:relative}
+@media (max-width:40rem){.site-header .container{flex-wrap:wrap;padding-block:var(--space-3)}.nav ul{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="lockup" href="/" aria-label="Access Profiles, home">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Access Profiles">
+        <g fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="square">
+          <rect x="8" y="8" width="48" height="48" rx="8"/>
+          <line x1="32" y1="8" x2="32" y2="56"/>
+          <line x1="8" y1="32" x2="56" y2="32"/>
+        </g>
+        <rect fill="#1F6F78" x="38" y="14" width="12" height="12" rx="2"/>
+      </svg>
+      <span>Access Profiles</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles#readme">Docs</a></li>
+        <li><a href="#comparison">Comparison</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div>
+        <p class="eyebrow">Laravel package · Open source</p>
+        <h1 id="hero-title">Different permissions in different parts of a tenant.</h1>
+        <p class="lead">Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.</p>
+        <div class="hero-actions">
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>composer require seisigmasrl/laravel-access-profiles</code>
+            <button class="copy primary" type="button" data-copy="composer require seisigmasrl/laravel-access-profiles" aria-label="Copy install command"><span class="copy-label">Copy</span></button>
+          </div>
+          <a class="btn-secondary" href="https://github.com/seisigmasrl/laravel-access-profiles">View on GitHub</a>
+        </div>
+        <ul class="meta" aria-label="Package facts">
+          <li>v0.1.0</li>
+          <li>MIT</li>
+          <li>PHP 8.3+</li>
+          <li>Laravel 12.69+ or 13.30+</li>
+        </ul>
+      </div>
+
+      <div class="code" role="group" aria-label="Example: grant.php">
+        <div class="code-bar">
+          <span class="file">grant.php</span>
+          <button class="copy" type="button" data-copy-from="code-hero" aria-label="Copy grant.php"><span class="copy-label">Copy</span></button>
+        </div>
+        <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3
+4</pre>
+<pre class="src" tabindex="0"><code id="code-hero"><span class="v">$assignment</span> = <span class="c">Access</span>::grant(<span class="s">'reviewer'</span>)-&gt;to(<span class="v">$user</span>)-&gt;in(<span class="v">$team</span>)
+    -&gt;onlyScopes([<span class="v">$site</span>, <span class="v">$otherSite</span>])-&gt;titled(<span class="s">'Review cover'</span>)
+    -&gt;validFrom(now())-&gt;validUntil(now()-&gt;addMonths(6))
+    -&gt;by(<span class="v">$admin</span>)-&gt;because(<span class="s">'Cover leave'</span>)-&gt;save();</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The problem -->
+  <section class="section" id="problem" aria-labelledby="problem-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">The problem</p>
+        <h2 id="problem-title">One role per tenant is not enough.</h2>
+        <p>In a multi-tenant app, the same person often needs different access in different parts of the same tenant.</p>
+      </div>
+      <ol class="problems">
+        <li>
+          <h3>Different roles in one tenant</h3>
+          <p>A manager in two sites, read-only in a third. Same person, same tenant.</p>
+        </li>
+        <li>
+          <h3>Access with an end date or a title</h3>
+          <p>An external auditor until a date. Appointed access through a title such as “Board treasurer”.</p>
+        </li>
+        <li>
+          <h3>A broad grant with one hole</h3>
+          <p>Everything in billing, except approving payments.</p>
+        </li>
+        <li>
+          <h3>A query, not a loop</h3>
+          <p>“Who can approve payments in site 4?” must be a query, not a loop over every user.</p>
+        </li>
+        <li>
+          <h3>A record of every grant</h3>
+          <p>“Who gave this person access, and why?”</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Value points -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What it does</p>
+        <h2 id="features-title">Clear rules for who can do what, and where.</h2>
+        <p>Tenants, scopes and holders are your own Eloquent models. A team can be a tenant, and its sites can be scopes. Each point below has a test in the repository.</p>
+      </div>
+
+      <div class="feature">
+        <div>
+          <span class="num">01</span>
+          <h3>Access per scope set, not per tenant.</h3>
+          <p>One assignment covers the whole tenant or a chosen list of scopes.</p>
+        </div>
+        <figure class="diagram">
+          <svg viewBox="0 0 480 268" role="img" aria-labelledby="dg1-t dg1-d">
+            <title id="dg1-t">Tenant, scopes and one assignment</title>
+            <desc id="dg1-d">A team tenant contains four sites. One reviewer assignment covers site 1 and site 3. Sites 2 and 4 are not in the assignment.</desc>
+            <text class="d-m" x="20" y="20">Tenant: team</text>
+            <rect class="d-tenant" x="20" y="32" width="440" height="200" rx="12"/>
+            <rect class="d-acc" x="36" y="48" width="196" height="76" rx="8"/>
+            <text class="d-t" x="54" y="80">site 1</text>
+            <text class="d-a" x="54" y="104">reviewer</text>
+            <rect class="d-box" x="248" y="48" width="196" height="76" rx="8"/>
+            <text class="d-t" x="266" y="80">site 2</text>
+            <text class="d-m" x="266" y="104">not in this assignment</text>
+            <rect class="d-acc" x="36" y="140" width="196" height="76" rx="8"/>
+            <text class="d-t" x="54" y="172">site 3</text>
+            <text class="d-a" x="54" y="196">reviewer</text>
+            <rect class="d-box" x="248" y="140" width="196" height="76" rx="8"/>
+            <text class="d-t" x="266" y="172">site 4</text>
+            <text class="d-m" x="266" y="196">not in this assignment</text>
+            <rect class="d-acc" x="20" y="248" width="12" height="12" rx="2"/>
+            <text class="d-m" x="40" y="259">One assignment: reviewer, sites 1 and 3</text>
+          </svg>
+          <figcaption>A tenant is your model. Its scopes are your models too.</figcaption>
+        </figure>
+      </div>
+
+      <div class="feature">
+        <div>
+          <span class="num">02</span>
+          <h3>Deny wins. Default is no.</h3>
+          <p>Any matching deny beats every allow, in any order. With no rule, the answer is false.</p>
+        </div>
+        <figure class="diagram">
+          <svg viewBox="0 0 480 312" role="img" aria-labelledby="dg2-t dg2-d">
+            <title id="dg2-t">How a check is decided</title>
+            <desc id="dg2-d">First, if any matching deny exists, the answer is false. Next, if any matching allow exists, the answer is true. If there is no rule, the answer is false.</desc>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path class="d-head" d="M0,0 L10,5 L0,10 z"/>
+              </marker>
+            </defs>
+            <rect class="d-box" x="20" y="12" width="440" height="44" rx="8"/>
+            <text class="d-mono" x="40" y="39">can('billing.invoice.approve', $site)</text>
+
+            <path class="d-line" d="M150,56 V86" marker-end="url(#ah)"/>
+            <rect class="d-box" x="20" y="90" width="260" height="44" rx="8"/>
+            <text class="d-t" x="40" y="117">Any matching deny?</text>
+            <path class="d-line" d="M280,112 H332" marker-end="url(#ah)"/>
+            <text class="d-m" x="292" y="104">yes</text>
+            <rect class="d-deny" x="336" y="90" width="124" height="44" rx="8"/>
+            <text class="d-n" x="356" y="117">false</text>
+
+            <path class="d-line" d="M150,134 V166" marker-end="url(#ah)"/>
+            <text class="d-m" x="160" y="155">no</text>
+            <rect class="d-box" x="20" y="170" width="260" height="44" rx="8"/>
+            <text class="d-t" x="40" y="197">Any matching allow?</text>
+            <path class="d-line" d="M280,192 H332" marker-end="url(#ah)"/>
+            <text class="d-m" x="292" y="184">yes</text>
+            <rect class="d-acc" x="336" y="170" width="124" height="44" rx="8"/>
+            <text class="d-y" x="356" y="197">true</text>
+
+            <path class="d-line" d="M150,214 V246" marker-end="url(#ah)"/>
+            <text class="d-m" x="160" y="235">no rule</text>
+            <rect class="d-deny" x="20" y="250" width="260" height="44" rx="8"/>
+            <text class="d-n" x="40" y="277">false</text>
+            <text class="d-m" x="92" y="277">denied by default</text>
+          </svg>
+          <figcaption>The order of the rules does not change the answer.</figcaption>
+        </figure>
+      </div>
+
+      <ul class="points">
+        <li>
+          <span class="num">03</span>
+          <h3>Access that ends on time, without a scheduler.</h3>
+          <p>Start dates are inclusive. End dates are exclusive. The cache TTL stops at the next boundary.</p>
+        </li>
+        <li>
+          <span class="num">04</span>
+          <h3>Who, why, and when, on every grant.</h3>
+          <p>Each assignment stores the grantor and the reason. Revoked rows stay as history. Write events fire after commit.</p>
+        </li>
+        <li>
+          <span class="num">05</span>
+          <h3>“Who can do X here?” is one query.</h3>
+          <p><code>Access::holders()</code> applies deny, scope, validity and conditions. It returns a builder you can paginate.</p>
+        </li>
+        <li>
+          <span class="num">06</span>
+          <h3>Safe grants by default.</h3>
+          <p>Guards reject self-assignment and escalation. Scopes must belong to the tenant. Rejections write nothing.</p>
+        </li>
+        <li>
+          <span class="num">07</span>
+          <h3>No global tenant state, no owner bypass.</h3>
+          <p>Every check takes a target. It is safe with Octane and queued jobs. Owners get a full profile like anyone else.</p>
+        </li>
+        <li>
+          <span class="num">08</span>
+          <h3>Small footprint, tested docs.</h3>
+          <p>PHP and 8 <code>illuminate/*</code> packages only. Every README example has a behaviour test.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Code walk-through -->
+  <section class="section" id="code" aria-labelledby="code-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Code walk-through</p>
+        <h2 id="code-title">Define, grant, check, ask.</h2>
+        <p>Four steps cover the whole flow. The examples use a team as the tenant and its sites as scopes.</p>
+      </div>
+
+      <div class="step">
+        <div>
+          <span class="num">Step 1</span>
+          <h3>Define a profile.</h3>
+          <p>A profile combines allow and deny rules in a tenant. This reviewer can do everything in billing, except approve invoices. The profile records who made it and why.</p>
+        </div>
+        <div class="code" role="group" aria-label="Example: profile.php">
+          <div class="code-bar">
+            <span class="file">profile.php</span>
+            <button class="copy" type="button" data-copy-from="code-profile" aria-label="Copy profile.php"><span class="copy-label">Copy</span></button>
+          </div>
+          <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3</pre>
+<pre class="src" tabindex="0"><code id="code-profile"><span class="v">$profile</span> = <span class="c">Access</span>::profile(<span class="s">'reviewer'</span>)-&gt;in(<span class="v">$team</span>)
+    -&gt;allow(<span class="s">'billing.*'</span>)-&gt;deny(<span class="d">'billing.invoice.approve'</span>)
+    -&gt;by(<span class="v">$admin</span>)-&gt;because(<span class="s">'Keep approvals separate'</span>)-&gt;save();</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <span class="num">Step 2</span>
+          <h3>Grant it to a holder.</h3>
+          <p>An assignment gives the profile to a holder in the tenant. This one covers two sites and has a title. It starts now and ends in six months. It records the grantor and the reason.</p>
+        </div>
+        <div class="code" role="group" aria-label="Example: grant.php">
+          <div class="code-bar">
+            <span class="file">grant.php</span>
+            <button class="copy" type="button" data-copy-from="code-grant" aria-label="Copy grant.php"><span class="copy-label">Copy</span></button>
+          </div>
+          <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3
+4</pre>
+<pre class="src" tabindex="0"><code id="code-grant"><span class="v">$assignment</span> = <span class="c">Access</span>::grant(<span class="s">'reviewer'</span>)-&gt;to(<span class="v">$user</span>)-&gt;in(<span class="v">$team</span>)
+    -&gt;onlyScopes([<span class="v">$site</span>, <span class="v">$otherSite</span>])-&gt;titled(<span class="s">'Review cover'</span>)
+    -&gt;validFrom(now())-&gt;validUntil(now()-&gt;addMonths(6))
+    -&gt;by(<span class="v">$admin</span>)-&gt;because(<span class="s">'Cover leave'</span>)-&gt;save();</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <span class="num">Step 3</span>
+          <h3>Check access.</h3>
+          <p>Every check takes a target. <code>can()</code> and <code>canAccess()</code> give the same answer. <code>explain()</code> returns the decision. In Blade, use <code>@canAccess</code>.</p>
+          <p class="note">It works next to Laravel's Gate, not instead of it. <code>$user-&gt;can()</code> and Gate keep their normal behaviour. Your policies call <code>canAccess()</code>.</p>
+        </div>
+        <div>
+          <div class="code" role="group" aria-label="Example: check.php">
+            <div class="code-bar">
+              <span class="file">check.php</span>
+              <button class="copy" type="button" data-copy-from="code-check" aria-label="Copy check.php"><span class="copy-label">Copy</span></button>
+            </div>
+            <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3</pre>
+<pre class="src" tabindex="0"><code id="code-check"><span class="v">$allowed</span> = <span class="c">Access</span>::for(<span class="v">$user</span>)-&gt;can(<span class="s">'billing.invoice.view'</span>, <span class="v">$site</span>);
+<span class="v">$sameAnswer</span> = <span class="v">$user</span>-&gt;canAccess(<span class="s">'billing.invoice.view'</span>, <span class="v">$site</span>);
+<span class="v">$decision</span> = <span class="c">Access</span>::for(<span class="v">$user</span>)-&gt;explain(<span class="s">'billing.invoice.approve'</span>, <span class="v">$site</span>);</code></pre>
+            </div>
+          </div>
+          <div class="code" role="group" aria-label="Example: Blade">
+            <div class="code-bar">
+              <span class="file">Blade</span>
+              <button class="copy" type="button" data-copy-from="code-blade" aria-label="Copy Blade example"><span class="copy-label">Copy</span></button>
+            </div>
+            <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3</pre>
+<pre class="src" tabindex="0"><code id="code-blade"><span class="v">@canAccess</span>(<span class="s">'billing.invoice.view'</span>, <span class="v">$site</span>)
+View invoices
+<span class="v">@endcanAccess</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <span class="num">Step 4</span>
+          <h3>Ask who has access.</h3>
+          <p><code>Access::holders()</code> answers “who can do this here?” with one query. It applies deny, scope, validity and conditions. <code>holdersQuery()</code> lets you count. <code>history()</code> shows the grants of a holder in a tenant, including revoked rows.</p>
+        </div>
+        <div class="code" role="group" aria-label="Example: query.php">
+          <div class="code-bar">
+            <span class="file">query.php</span>
+            <button class="copy" type="button" data-copy-from="code-query" aria-label="Copy query.php"><span class="copy-label">Copy</span></button>
+          </div>
+          <div class="code-body">
+<pre class="gutter" aria-hidden="true">1
+2
+3</pre>
+<pre class="src" tabindex="0"><code id="code-query"><span class="v">$holders</span> = <span class="c">Access</span>::holders(<span class="s">'billing.invoice.view'</span>, <span class="v">$site</span>);
+<span class="v">$count</span> = <span class="c">Access</span>::holdersQuery(<span class="s">'billing.invoice.view'</span>, <span class="v">$site</span>)-&gt;count();
+<span class="v">$history</span> = <span class="c">Access</span>::history(<span class="v">$user</span>, <span class="v">$team</span>);</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="section" id="comparison" aria-labelledby="comparison-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Comparison</p>
+        <h2 id="comparison-title">How it compares.</h2>
+        <p>Each option fits a different case. The table shows what each one does out of the box.</p>
+      </div>
+
+      <p class="table-hint" aria-hidden="true">Scroll the table sideways to see all columns.</p>
+      <div class="table-wrap" role="region" aria-labelledby="comparison-title" tabindex="0">
+        <table>
+          <caption>Checked on 2026-10-28. Versions: access-profiles 0.1.0, spatie/laravel-permission 8.3.2, silber/bouncer v1.0.4, santigarcor/laratrust 8.5.6, Laravel 13.x Gate. “—” means no.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col" class="ours">Access Profiles</th>
+              <th scope="col">spatie/laravel-permission</th>
+              <th scope="col">Bouncer</th>
+              <th scope="col">Laratrust</th>
+              <th scope="col">Gate + policies</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Multi-tenant scope</th>
+              <td class="ours">Tenant + scopes inside it</td>
+              <td>One team dimension</td>
+              <td>One tenant id per request</td>
+              <td>One team, passed per call</td>
+              <td>You write it</td>
+            </tr>
+            <tr>
+              <th scope="row">One assignment → a set of scopes</th>
+              <td class="ours">Yes</td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td>You write it</td>
+            </tr>
+            <tr>
+              <th scope="row">Deny</th>
+              <td class="ours">Yes, deny wins</td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td>Yes, <code>forbid()</code></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td>You write it</td>
+            </tr>
+            <tr>
+              <th scope="row">Validity window</th>
+              <td class="ours"><code>valid_from</code> / <code>valid_until</code></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td>You write it</td>
+            </tr>
+            <tr>
+              <th scope="row">Grantor + reason audit</th>
+              <td class="ours">Yes, plus write events</td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td>You write it</td>
+            </tr>
+            <tr>
+              <th scope="row">“Who can do X here?”</th>
+              <td class="ours"><code>Access::holders()</code></td>
+              <td><code>User::permission()</code> for the current team</td>
+              <td>By role only</td>
+              <td><code>whereHasPermission()</code></td>
+              <td>Loop over users</td>
+            </tr>
+            <tr>
+              <th scope="row">Global tenant state</th>
+              <td class="ours">None; target per check</td>
+              <td>Global team id</td>
+              <td>Static scope</td>
+              <td>None</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <th scope="row">Owner / super-admin</th>
+              <td class="ours">No bypass</td>
+              <td><code>Gate::before</code></td>
+              <td><code>everything()</code></td>
+              <td>Role check</td>
+              <td><code>Gate::before</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Laravel versions</th>
+              <td class="ours">12.69+, 13.30+</td>
+              <td>12, 13</td>
+              <td>11, 12, 13</td>
+              <td>10, 11, 12, 13</td>
+              <td class="none"><span aria-hidden="true">—</span><span class="sr-only">Not applicable</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Maintenance</th>
+              <td class="ours">New: 0.1.0 (2026-10-28)</td>
+              <td>Active</td>
+              <td>Slow (about one release a year)</td>
+              <td>Active</td>
+              <td>Laravel core</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="reading" aria-label="Honest reading">
+        <li><strong>spatie/laravel-permission</strong> is the safe default for one tenant or one team level, with the biggest community.</li>
+        <li><strong>Bouncer</strong> is the closest in spirit. It has deny.</li>
+        <li><strong>Laratrust</strong> passes the team explicitly.</li>
+        <li><strong>Plain Gate + policies</strong> is enough when roles are few and fixed.</li>
+      </ul>
+      <p class="more"><a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/docs/COMPARISON.md">Full comparison with sources</a></p>
+    </div>
+  </section>
+
+  <!-- When not to use it -->
+  <section class="section" id="when-not" aria-labelledby="when-not-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">When not to use it</p>
+        <h2 id="when-not-title">It is not the right tool for every app.</h2>
+      </div>
+      <ul class="not-list">
+        <li><span class="if">One tenant or one flat team level</span><span class="then">consider spatie/laravel-permission.</span></li>
+        <li><span class="if">A few fixed roles</span><span class="then">Laravel's Gates and policies may be enough.</span></li>
+        <li><span class="if">Record-level rules</span><span class="then">keep them in a policy.</span></li>
+        <li><span class="if">An admin UI out of the box</span><span class="then">build your own screens.</span></li>
+        <li class="warn"><span class="if">A mature, proven package today</span><span class="then">this package is new. Review it before relying on it for access control.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Install steps -->
+  <section class="section" id="install" aria-labelledby="install-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Install</p>
+        <h2 id="install-title">Install in six steps.</h2>
+        <p>Requires PHP 8.3+ and Laravel 12.69+ or 13.30+.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>composer require seisigmasrl/laravel-access-profiles</code>
+            <button class="copy" type="button" data-copy="composer require seisigmasrl/laravel-access-profiles" aria-label="Copy step 1 command"><span class="copy-label">Copy</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>php artisan vendor:publish --tag=access-profiles-config</code>
+            <button class="copy" type="button" data-copy="php artisan vendor:publish --tag=access-profiles-config" aria-label="Copy step 2 command"><span class="copy-label">Copy</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>php artisan vendor:publish --tag=access-profiles-migrations</code>
+            <button class="copy" type="button" data-copy="php artisan vendor:publish --tag=access-profiles-migrations" aria-label="Copy step 3 command"><span class="copy-label">Copy</span></button>
+          </div>
+        </li>
+        <li>
+          <p><strong>Configure the permission catalogue and templates.</strong> Choose table names before migrating.</p>
+        </li>
+        <li>
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>php artisan migrate</code>
+            <button class="copy" type="button" data-copy="php artisan migrate" aria-label="Copy step 5 command"><span class="copy-label">Copy</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="cmd">
+            <code><span class="prompt" aria-hidden="true">$</span>php artisan access-profiles:sync-templates</code>
+            <button class="copy" type="button" data-copy="php artisan access-profiles:sync-templates" aria-label="Copy step 6 command"><span class="copy-label">Copy</span></button>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">Questions and answers.</h2>
+      </div>
+      <dl class="faq">
+        <div>
+          <dt>Does it replace Laravel's Gate?</dt>
+          <dd>No. Gate and <code>$user-&gt;can()</code> keep their normal behaviour. Call <code>canAccess()</code> or <code>Access::for()</code> from a policy.</dd>
+        </div>
+        <div>
+          <dt>Is there a super-admin or owner bypass?</dt>
+          <dd>No. An owner gets a full profile like everyone else.</dd>
+        </div>
+        <div>
+          <dt>Is it safe with Octane and queues?</dt>
+          <dd>There is no global tenant state. Every check takes a target. Jobs re-check when they run.</dd>
+        </div>
+        <div>
+          <dt>Do I need a scheduler for expiry?</dt>
+          <dd>No. The cache stops at the next validity boundary.</dd>
+        </div>
+        <div>
+          <dt>Does it ship an admin UI?</dt>
+          <dd>No. Build your own screens.</dd>
+        </div>
+        <div>
+          <dt>Does it work with Sanctum tokens?</dt>
+          <dd>Optional. With <code>token_intersection</code>, a token can only narrow access. There is no Sanctum dependency.</dd>
+        </div>
+        <div>
+          <dt>Can I move from another permission package?</dt>
+          <dd>Yes. Write a <code>BackfillSource</code> and run <code>access-profiles:backfill --dry-run</code> first.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Final install -->
+  <section class="section final" aria-labelledby="final-title">
+    <div class="container">
+      <div class="final-box">
+        <h2 id="final-title">Start with one command.</h2>
+        <div class="cmd">
+          <code><span class="prompt" aria-hidden="true">$</span>composer require seisigmasrl/laravel-access-profiles</code>
+          <button class="copy primary" type="button" data-copy="composer require seisigmasrl/laravel-access-profiles" aria-label="Copy install command"><span class="copy-label">Copy</span></button>
+        </div>
+        <p class="caution">Version 0.1.0 is new. Review it before relying on it for access control.</p>
+        <p class="final-links">
+          <a href="https://github.com/seisigmasrl/laravel-access-profiles#readme">Read the docs</a>
+          <a href="https://github.com/seisigmasrl/laravel-access-profiles">View on GitHub</a>
+          <a href="https://packagist.org/packages/seisigmasrl/laravel-access-profiles">Packagist</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <a class="lockup" href="/" aria-label="Access Profiles, home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Access Profiles">
+          <g fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="square">
+            <rect x="8" y="8" width="48" height="48" rx="8"/>
+            <line x1="32" y1="8" x2="32" y2="56"/>
+            <line x1="8" y1="32" x2="56" y2="32"/>
+          </g>
+          <rect fill="#1F6F78" x="38" y="14" width="12" height="12" rx="2"/>
+        </svg>
+        <span>Access Profiles</span>
+      </a>
+      <p style="margin-top:var(--space-4)">Version 0.1.0, released 2026-10-28. MIT license.</p>
+      <p>By Ricardo A. Vargas R. (Seisigma SRL).</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="foot-links">
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles">GitHub</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles#readme">Docs</a></li>
+        <li><a href="https://packagist.org/packages/seisigmasrl/laravel-access-profiles">Packagist</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/docs/DESIGN.md">Design notes</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/CHANGELOG.md">Changelog</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/SECURITY.md">Security</a></li>
+        <li><a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/LICENSE.md">License (MIT)</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<p id="copy-status" class="sr-only" aria-live="polite"></p>
+
+<script>
+(function () {
+  var live = document.getElementById('copy-status');
+  function fallbackCopy(text) {
+    var area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(area);
+    return ok;
+  }
+  document.querySelectorAll('button[data-copy], button[data-copy-from]').forEach(function (btn) {
+    var label = btn.querySelector('.copy-label');
+    var timer;
+    btn.addEventListener('click', function () {
+      var text = btn.hasAttribute('data-copy')
+        ? btn.getAttribute('data-copy')
+        : document.getElementById(btn.getAttribute('data-copy-from')).textContent;
+      function done(ok) {
+        label.textContent = ok ? 'Copied' : 'Select to copy';
+        live.textContent = ok ? 'Copied to clipboard.' : 'Copy failed. Select the text and copy it.';
+        clearTimeout(timer);
+        timer = setTimeout(function () { label.textContent = 'Copy'; live.textContent = ''; }, 2000);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
+      } else {
+        done(fallbackCopy(text));
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+/* Tailwind v4 for the small pages (404, privacy). No preflight: landing.css already sets the base. */
+@layer theme, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);

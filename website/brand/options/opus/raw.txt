@@ -1,0 +1,48 @@
+<!-- style: combination; technique: geometric-grid; direction: Scoped Grid; why: The outer square is the tenant, and the four cells are its scopes. One filled cell shows one granted scope; all the other cells stay empty because access is denied by default. Every shape sits on one 8-unit grid with the same 6-unit stroke and the same corner radius, so the mark is calm and precise. -->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 64" data-part="lockup" role="img" aria-label="Access Profiles">
+  <style>
+    .n{stroke:#1E293B;fill:none}
+    .t{fill:#1E293B}
+    .a{fill:#1F6F78}
+    @media (prefers-color-scheme:dark){
+      .n{stroke:#E2E8F0}
+      .t{fill:#E2E8F0}
+      .a{fill:#4FB3BD}
+    }
+  </style>
+  <g stroke-width="6" stroke-linecap="square">
+    <rect class="n" x="8" y="8" width="48" height="48" rx="8"/>
+    <line class="n" x1="32" y1="8" x2="32" y2="56"/>
+    <line class="n" x1="8" y1="32" x2="56" y2="32"/>
+  </g>
+  <rect class="a" x="38" y="14" width="12" height="12" rx="2"/>
+  <text class="t" x="76" y="43" font-family="Manrope, sans-serif" font-weight="600" font-size="30" letter-spacing="-0.3">Access Profiles</text>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-part="mark" role="img" aria-label="Access Profiles">
+  <style>
+    .n{stroke:#1E293B;fill:none}
+    .a{fill:#1F6F78}
+    @media (prefers-color-scheme:dark){
+      .n{stroke:#E2E8F0}
+      .a{fill:#4FB3BD}
+    }
+  </style>
+  <g stroke-width="6" stroke-linecap="square">
+    <rect class="n" x="8" y="8" width="48" height="48" rx="8"/>
+    <line class="n" x1="32" y1="8" x2="32" y2="56"/>
+    <line class="n" x1="8" y1="32" x2="56" y2="32"/>
+  </g>
+  <rect class="a" x="38" y="14" width="12" height="12" rx="2"/>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 64" data-part="mono" role="img" aria-label="Access Profiles">
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square">
+    <rect x="8" y="8" width="48" height="48" rx="8"/>
+    <line x1="32" y1="8" x2="32" y2="56"/>
+    <line x1="8" y1="32" x2="56" y2="32"/>
+  </g>
+  <rect fill="currentColor" x="38" y="14" width="12" height="12" rx="2"/>
+  <text fill="currentColor" x="76" y="43" font-family="Manrope, sans-serif" font-weight="600" font-size="30" letter-spacing="-0.3">Access Profiles</text>
+</svg>

@@ -1,0 +1,22 @@
+---
+import BrandMark from './BrandMark.astro';
+
+interface Props {
+  home?: boolean;
+}
+const { home = false } = Astro.props;
+---
+<header>
+  <div class="wrap header-inner">
+    {home ? (
+      <div class="brand"><BrandMark /><span>Access Profiles</span></div>
+    ) : (
+      <a class="brand" href="/" style="text-decoration:none"><BrandMark /><span>Access Profiles</span></a>
+    )}
+    <nav aria-label="Main navigation">
+      <a href="/docs/getting-started/">Docs</a>
+      <a href="/docs/comparison/">Comparison</a>
+      <a href="https://github.com/seisigmasrl/laravel-access-profiles">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,3 @@
+direction: Connected Scopes; why: style: symbol; technique: negative-space;
+Two scoped openings share a passage inside one tenant boundary.
+A calm, single-color silhouette keeps the hidden connection clear at favicon size.

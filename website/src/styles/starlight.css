@@ -1,0 +1,74 @@
+/* Starlight theme from DESIGN.md tokens. Starlight's :root is dark; [data-theme='light'] is light. */
+:root {
+  --sl-font: 'Manrope', system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Dark (DESIGN.md dark column) */
+  --sl-color-white: #F1F5F9;
+  --sl-color-gray-1: #E2E8F0;
+  --sl-color-gray-2: #E2E8F0;
+  --sl-color-gray-3: #ABBAC8;
+  --sl-color-gray-4: #8496A8;
+  --sl-color-gray-5: #3D5061;
+  --sl-color-gray-6: #16212C;
+  --sl-color-black: #101820;
+
+  --sl-color-accent-low: #17363E;
+  --sl-color-accent: #2E8F99;
+  --sl-color-accent-high: #4FB3BD;
+
+  --sl-color-red-low: #3D2530;
+  --sl-color-red: #F0A1AF;
+  --sl-color-red-high: #F0A1AF;
+
+  --sl-color-bg-inline-code: #1D2B38;
+  --sl-color-hairline: #3D5061;
+  --sl-color-hairline-light: #3D5061;
+}
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  /* Light (DESIGN.md light column) */
+  --sl-color-white: #1E293B;
+  --sl-color-gray-1: #1E293B;
+  --sl-color-gray-2: #1E293B;
+  --sl-color-gray-3: #526173;
+  --sl-color-gray-4: #66758A;
+  --sl-color-gray-5: #CDD6DE;
+  --sl-color-gray-6: #F0F4F5;
+  --sl-color-gray-7: #FAFBFC;
+  --sl-color-black: #FFFFFF;
+
+  --sl-color-accent-high: #134A50;
+  --sl-color-accent: #1F6F78;
+  --sl-color-accent-low: #E8F3F3;
+
+  --sl-color-red-high: #9F3547;
+  --sl-color-red: #9F3547;
+  --sl-color-red-low: #FBEFF1;
+
+  --sl-color-bg: #FAFBFC;
+  --sl-color-bg-nav: #FFFFFF;
+  --sl-color-bg-sidebar: #FAFBFC;
+  --sl-color-bg-inline-code: #F0F4F5;
+  --sl-color-hairline: #CDD6DE;
+  --sl-color-hairline-light: #CDD6DE;
+  --sl-color-hairline-shade: #CDD6DE;
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+h1#_top {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.sl-markdown-content { line-height: 1.7; }
+
+:focus-visible { outline: 3px solid var(--sl-color-text-accent); outline-offset: 5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

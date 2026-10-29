@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/tailwind.css';
+import { readVersion } from '../lib/version.mjs';
+
+const version = await readVersion();
+
+// What the visitor receives: our own artwork and two OFL fonts.
+const shipped = [
+  { name: 'Logo, favicons and social image', use: 'Brand mark on every page', license: 'Made for this project by SEISIGMA SRL', href: null },
+  { name: 'Manrope', use: 'Body and headings', license: 'SIL Open Font License 1.1', href: 'https://openfontlicense.org' },
+  { name: 'JetBrains Mono', use: 'Code samples', license: 'SIL Open Font License 1.1', href: 'https://openfontlicense.org' },
+  { name: 'Pagefind UI', use: 'Docs search', license: 'MIT License', href: 'https://github.com/Pagefind/pagefind/blob/main/LICENSE' },
+  { name: 'Expressive Code', use: 'Code blocks and copy button', license: 'MIT License', href: 'https://github.com/expressive-code/expressive-code/blob/main/LICENSE' },
+];
+
+// Tools that only run when the site is built. None of their code is in the pages.
+const buildTools = [
+  { name: 'Astro and Starlight', license: 'MIT License', href: 'https://github.com/withastro/astro/blob/main/LICENSE' },
+  { name: 'Tailwind CSS', license: 'MIT License', href: 'https://github.com/tailwindlabs/tailwindcss/blob/main/LICENSE' },
+  { name: 'Lightning CSS', license: 'Mozilla Public License 2.0', href: 'https://github.com/parcel-bundler/lightningcss/blob/master/LICENSE' },
+  { name: 'sharp', license: 'Apache License 2.0', href: 'https://github.com/lovell/sharp/blob/main/LICENSE' },
+  { name: 'libvips (prebuilt with sharp)', license: 'GNU LGPL 3.0 or later', href: 'https://github.com/libvips/libvips/blob/master/LICENSE' },
+];
+---
+<Base title="Credits and licenses · Access Profiles" description="Where the fonts, artwork and build tools of the Access Profiles website come from, and their licenses.">
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main">
+    <section class="wrap py-24 md:py-32">
+      <p class="eyebrow">Credits</p>
+      <h1 class="max-w-[18ch]">Credits and licenses</h1>
+      <div class="mt-8 flex max-w-[70ch] flex-col gap-5">
+        <p>Thanks to the projects that make this site possible. This page lists where its fonts, artwork and tools come from, and their licenses.</p>
+        <p>The package itself is released under the <a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/LICENSE.md">MIT License</a>. This website is not part of the package download.</p>
+      </div>
+
+      <div class="mt-16 flex flex-col gap-5">
+      <h2>In the pages</h2>
+      <p class="max-w-[70ch]">The site uses no stock photos. All images are our own artwork.</p>
+      <div class="table-scroll table-plain" tabindex="0" role="region" aria-label="Fonts, artwork and scripts in the pages">
+        <table>
+          <thead><tr><th scope="col">Item</th><th scope="col">Use</th><th scope="col">License</th></tr></thead>
+          <tbody>
+            {shipped.map((item) => (
+              <tr><th scope="row">{item.name}</th><td>{item.use}</td><td>{item.href ? <a href={item.href}>{item.license}</a> : item.license}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      </div>
+
+      <div class="mt-16 flex flex-col gap-5">
+      <h2>Build tools</h2>
+      <p class="max-w-[70ch]">These tools run only when the site is built. Their code is not in the pages you download. The image tools (sharp with libvips) come with Astro; this site serves its images as plain files.</p>
+      <div class="table-scroll table-plain" tabindex="0" role="region" aria-label="Build tools">
+        <table>
+          <thead><tr><th scope="col">Tool</th><th scope="col">License</th></tr></thead>
+          <tbody>
+            {buildTools.map((tool) => (
+              <tr><th scope="row">{tool.name}</th><td><a href={tool.href}>{tool.license}</a></td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      </div>
+
+      <div class="mt-10 max-w-[70ch]"><p>See a credit that is missing or wrong? Open an issue on <a href="https://github.com/seisigmasrl/laravel-access-profiles/issues">GitHub</a>.</p></div>
+    </section>
+  </main>
+  <SiteFooter version={version} />
+</Base>

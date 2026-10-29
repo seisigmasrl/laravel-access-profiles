@@ -22,3 +22,5 @@
 /phpstan-baseline.neon  export-ignore
 /pint.json          export-ignore
 /CONTRIBUTING.md    export-ignore
+/website            export-ignore
+/.fossa.yml         export-ignore

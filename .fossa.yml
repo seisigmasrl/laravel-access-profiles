@@ -1,0 +1,7 @@
+# The package ships only PHP. The website is export-ignored and never part of the download,
+# so its build tools stay out of the package license scan. Licenses: website/src/pages/licenses.astro.
+version: 3
+
+paths:
+  exclude:
+    - ./website

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Access Profiles banner</title>
+<style>
+@font-face { font-family: Manrope; font-weight: 600; src: url(../../node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2); }
+@font-face { font-family: Manrope; font-weight: 700; src: url(../../node_modules/@fontsource/manrope/files/manrope-latin-700-normal.woff2); }
+@font-face { font-family: Manrope; font-weight: 400; src: url(../../node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400; src: url(../../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2); }
+:root { --bg:#FAFBFC; --surface:#FFFFFF; --soft:#F0F4F5; --ink:#1E293B; --muted:#526173; --accent:#1F6F78; --accent-soft:#E8F3F3; --deny:#9F3547; --deny-soft:#FBEFF1; --line:#CDD6DE; }
+body.dark { --bg:#101820; --surface:#16212C; --soft:#1D2B38; --ink:#E2E8F0; --muted:#ABBAC8; --accent:#4FB3BD; --accent-soft:#17363E; --deny:#F0A1AF; --deny-soft:#3D2530; --line:#3D5061; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: var(--w); height: var(--h); overflow: hidden; }
+body { background: var(--bg); color: var(--ink); font-family: Manrope, sans-serif; }
+.frame { position: absolute; inset: 0; padding: 72px 80px; display: grid; grid-template-columns: 1fr 400px; gap: 64px; align-items: center; }
+.brand { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+.brand svg { width: 52px; height: 52px; }
+.brand g { stroke: var(--ink); } .brand .dot { fill: var(--accent); }
+h1 { margin-top: 44px; font-size: 54px; line-height: 1.12; font-weight: 700; letter-spacing: -.045em; max-width: 15ch; }
+p { margin-top: 22px; font-size: 22px; line-height: 1.5; color: var(--muted); max-width: 34ch; }
+code { display: inline-block; margin-top: 30px; padding: 14px 20px; border: 1.5px solid var(--accent); border-radius: 12px; background: var(--accent-soft); font: 19px 'JetBrains Mono', monospace; color: var(--ink); }
+.map { border: 1.5px solid var(--line); border-radius: 20px; background: var(--surface); padding: 26px; }
+.map .label { font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.map .tenant { margin-top: 6px; font-size: 22px; font-weight: 700; }
+.grid { margin-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cell { height: 84px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--soft); padding: 12px; font-size: 15px; font-weight: 600; color: var(--muted); }
+.cell.on { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.cell.deny { border-color: var(--deny); background: var(--deny-soft); color: var(--deny); }
+.cell small { display: block; margin-top: 6px; font: 13px 'JetBrains Mono', monospace; }
+.legend { margin-top: 18px; font-size: 15px; color: var(--muted); }
+/* README header: one row, no map */
+body.wide .frame { grid-template-columns: 1fr; padding: 0 80px; }
+body.wide .map, body.wide p, body.wide code { display: none; }
+body.wide .row { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+body.wide h1 { margin-top: 0; font-size: 40px; max-width: 22ch; text-align: right; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="row">
+    <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke-width="6" stroke-linecap="square"><rect x="8" y="8" width="48" height="48" rx="8"/><line x1="32" y1="8" x2="32" y2="56"/><line x1="8" y1="32" x2="56" y2="32"/></g><rect class="dot" x="38" y="14" width="12" height="12" rx="2"/></svg><span>Access Profiles</span></div>
+    <h1>Different permissions in different parts of a tenant.</h1>
+    <p>Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.</p>
+    <code>composer require seisigmasrl/laravel-access-profiles</code>
+  </div>
+  <div class="map" aria-hidden="true">
+    <div class="label">Tenant</div>
+    <div class="tenant">Team</div>
+    <div class="grid">
+      <div class="cell on">Site A<small>allow</small></div>
+      <div class="cell on">Site B<small>allow</small></div>
+      <div class="cell">Site C</div>
+      <div class="cell on">Site D<small>allow</small></div>
+      <div class="cell deny">Site E<small>deny</small></div>
+      <div class="cell">Site F</div>
+    </div>
+    <div class="legend">One assignment. Selected scopes. Deny wins.</div>
+  </div>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+document.documentElement.style.setProperty('--w', (q.get('w') || 1280) + 'px');
+document.documentElement.style.setProperty('--h', (q.get('h') || 640) + 'px');
+for (const c of (q.get('c') || '').split(',').filter(Boolean)) document.body.classList.add(c);
+</script>
+</body></html>

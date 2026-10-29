@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/tailwind.css';
+import { readVersion } from '../lib/version.mjs';
+
+const version = await readVersion();
+---
+<Base title="Privacy · Access Profiles" description="The Access Profiles website sets no cookies, has no forms and no accounts, and collects no personal data.">
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main">
+    <section class="wrap py-24 md:py-32">
+      <p class="eyebrow">Privacy</p>
+      <h1 class="max-w-[18ch]">Privacy</h1>
+      <div class="mt-8 flex max-w-[70ch] flex-col gap-5">
+        <p>This website is static. It has no accounts, no forms and no comments.</p>
+        <p>It sets no cookies. It does not use analytics or tracking scripts. The fonts are served from this site.</p>
+        <p>The host serves the pages and can keep standard server logs, such as the IP address and the requested page, to run and protect the service.</p>
+        <p>Links to GitHub and Packagist go to other sites. Their own privacy policies apply there.</p>
+        <p>The package itself runs in your own application. It sends no data to SEISIGMA SRL.</p>
+        <p>Questions: open an issue on <a href="https://github.com/seisigmasrl/laravel-access-profiles/issues">GitHub</a>.</p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter version={version} />
+</Base>
