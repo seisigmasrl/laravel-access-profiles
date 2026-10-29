@@ -4,7 +4,8 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/seisigmasrl/laravel-access-profiles/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/seisigmasrl/laravel-access-profiles/actions/workflows/run-tests.yml)
 [![PHPStan](https://img.shields.io/github/actions/workflow/status/seisigmasrl/laravel-access-profiles/phpstan.yml?branch=main&label=phpstan&style=flat-square)](https://github.com/seisigmasrl/laravel-access-profiles/actions/workflows/phpstan.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/seisigmasrl/laravel-access-profiles.svg?style=flat-square)](https://packagist.org/packages/seisigmasrl/laravel-access-profiles)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles?ref=badge_shield&issueType=license)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Fseisigmasrl%2Flaravel-access-profiles?ref=badge_shield&issueType=security)
 
 Give people different permissions in different parts of a tenant. Profiles combine allow and deny rules, and any matching deny wins. Assignments cover a whole tenant or selected scopes, with validity dates and a record of who granted access and why.
 
