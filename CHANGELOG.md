@@ -1,5 +1,20 @@
 # Changelog
 
+All notable changes to this package are listed here. See [RELEASING.md](RELEASING.md) for how each release fills this file.
+
+## 0.1.2 - 2026-10-29
+
+### Changed
+
+- Permission keys may have 2 to 4 lower snake segments. Wildcards match keys at any depth below their prefix.
+- Docs: the README is shorter. The detail lives on the docs site.
+
+## 0.1.1 - 2026-10-29
+
+### Changed
+
+- Docs only: the README, the comparison and the design notes match the released 0.1.0. The Packagist description now says the package works next to Laravel's Gate.
+
 ## 0.1.0 - 2026-10-28
 
 ### Added
