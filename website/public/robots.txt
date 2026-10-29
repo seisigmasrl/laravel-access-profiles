@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://laravel-access-profiles.pages.dev/sitemap-index.xml
+Sitemap: https://laravel-access-profiles.packages.seisigma.co/sitemap-index.xml

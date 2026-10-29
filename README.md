@@ -13,7 +13,7 @@ Access is denied by default. There is no global current tenant and no owner bypa
 
 ## Requirements
 
-PHP 8.3+ and Laravel 12.69+ or 13.30+. Runtime dependencies are PHP and `illuminate/*`. See [Getting started](https://laravel-access-profiles.pages.dev/docs/getting-started/#requirements).
+PHP 8.3+ and Laravel 12.69+ or 13.30+. Runtime dependencies are PHP and `illuminate/*`. See [Getting started](https://laravel-access-profiles.packages.seisigma.co/docs/getting-started/#requirements).
 
 ## Installation
 
@@ -23,7 +23,7 @@ php artisan vendor:publish --tag=access-profiles-config
 php artisan vendor:publish --tag=access-profiles-migrations
 ```
 
-Define your [catalogue and templates](https://laravel-access-profiles.pages.dev/docs/catalogue-and-templates/) and choose table names. Then migrate and sync the templates:
+Define your [catalogue and templates](https://laravel-access-profiles.packages.seisigma.co/docs/catalogue-and-templates/) and choose table names. Then migrate and sync the templates:
 
 ```bash
 php artisan migrate
@@ -45,13 +45,13 @@ Then check access with `Access::for($user)->can('billing.invoice.view', $site)` 
 
 ## Documentation
 
-- [Getting started](https://laravel-access-profiles.pages.dev/docs/getting-started/): requirements, install, config, commands.
-- [Concepts](https://laravel-access-profiles.pages.dev/docs/concepts/): tenant, scope, profile, assignment and the decision rules.
-- [Catalogue and templates](https://laravel-access-profiles.pages.dev/docs/catalogue-and-templates/): keys, templates, profiles, assignments and guards.
-- [Checking access](https://laravel-access-profiles.pages.dev/docs/checking-access/): checks, Blade, Inertia, policies and queues.
-- [Scoped queries](https://laravel-access-profiles.pages.dev/docs/scoped-queries/): who holds a key, which scopes a holder reaches, history.
-- [Events and audit](https://laravel-access-profiles.pages.dev/docs/events-and-audit/): write events for your audit log.
-- [Testing](https://laravel-access-profiles.pages.dev/docs/testing/) and [Upgrading](https://laravel-access-profiles.pages.dev/docs/upgrading/).
+- [Getting started](https://laravel-access-profiles.packages.seisigma.co/docs/getting-started/): requirements, install, config, commands.
+- [Concepts](https://laravel-access-profiles.packages.seisigma.co/docs/concepts/): tenant, scope, profile, assignment and the decision rules.
+- [Catalogue and templates](https://laravel-access-profiles.packages.seisigma.co/docs/catalogue-and-templates/): keys, templates, profiles, assignments and guards.
+- [Checking access](https://laravel-access-profiles.packages.seisigma.co/docs/checking-access/): checks, Blade, Inertia, policies and queues.
+- [Scoped queries](https://laravel-access-profiles.packages.seisigma.co/docs/scoped-queries/): who holds a key, which scopes a holder reaches, history.
+- [Events and audit](https://laravel-access-profiles.packages.seisigma.co/docs/events-and-audit/): write events for your audit log.
+- [Testing](https://laravel-access-profiles.packages.seisigma.co/docs/testing/) and [Upgrading](https://laravel-access-profiles.packages.seisigma.co/docs/upgrading/).
 - [DESIGN.md](docs/DESIGN.md) for the decisions and [COMPARISON.md](docs/COMPARISON.md) for alternatives.
 
 ## When not to use it

@@ -13,7 +13,7 @@ B — 244 chars
 
 Why A: it names the category first ("access profiles", "multi-tenant Laravel"), so GitHub search and readers place it fast. B is the README sentence; good, but it hides "Laravel" until the end.
 
-Website field (GitHub About): the `*.pages.dev` URL after phase 7.
+Website field (GitHub About): `https://laravel-access-profiles.packages.seisigma.co`.
 
 ## GitHub topics (8–12)
 

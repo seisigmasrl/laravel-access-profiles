@@ -4,8 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import rehypeRepoLinks from './src/lib/rehype-repo-links.mjs';
 
-// Cloudflare Pages address (WEB.Q2). An own domain later only changes this line.
-const site = 'https://laravel-access-profiles.pages.dev';
+// Final domain. Changing the address only changes this line.
+const site = 'https://laravel-access-profiles.packages.seisigma.co';
 
 export default defineConfig({
   site,
