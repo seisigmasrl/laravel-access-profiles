@@ -161,6 +161,10 @@ tbody th { background: var(--surface); font-weight: 600; width: 185px; }
 thead th:first-child, tbody th { position: sticky; left: 0; z-index: 1; border-right: 1px solid var(--line); }
 td { background: var(--surface); color: var(--muted); }
 td:nth-child(2), thead th:nth-child(2) { background: var(--accent-soft); color: var(--accent); }
+/* Plain list tables (credits): no highlighted column, fit the phone width. */
+.table-plain table { min-width: 0; }
+.table-plain td:nth-child(2), .table-plain thead th:nth-child(2) { background: var(--surface); color: var(--muted); }
+.table-plain thead th:nth-child(2) { background: var(--soft); color: inherit; }
 tr:last-child td, tr:last-child th { border-bottom: 0; }
 .honest { margin-top: 28px; max-width: 78ch; }
 .honest h3 { font-size: var(--text-base); margin-bottom: 10px; }
