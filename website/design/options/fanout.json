@@ -1,0 +1,29 @@
+[
+  {
+    "id": "opus",
+    "label": "Claude Opus 5.5",
+    "ok": true,
+    "exit": 0,
+    "ms": 242089,
+    "bytes": 49486,
+    "file": "/Users/ricardov/.agent-work/worktrees/lap-web/website/design/options/opus/mock.html"
+  },
+  {
+    "id": "astra",
+    "label": "GPT-6 Astra",
+    "ok": true,
+    "exit": 0,
+    "ms": 256649,
+    "bytes": 38358,
+    "file": "/Users/ricardov/.agent-work/worktrees/lap-web/website/design/options/astra/mock.html"
+  },
+  {
+    "id": "argon",
+    "label": "Gemini 4 Argon",
+    "ok": true,
+    "exit": 0,
+    "ms": 273197,
+    "bytes": 76851,
+    "file": "/Users/ricardov/.agent-work/worktrees/lap-web/website/design/options/argon/mock.html"
+  }
+]

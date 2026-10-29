@@ -1,0 +1,14 @@
+{
+  "id": "astra",
+  "label": "GPT-6 Astra",
+  "context": [
+    "astra-v2",
+    "argon",
+    "opus"
+  ],
+  "ok": true,
+  "exit": 0,
+  "ms": 735233,
+  "bytes": 47812,
+  "file": "/Users/ricardov/.agent-work/worktrees/lap-web/website/design/options/astra-v3/mock.html"
+}

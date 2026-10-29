@@ -29,3 +29,5 @@ Design-studio §1 answers. `confirmed` = Ricardo said it. `assumed` = my default
 
 ## Winner record
 - Filled in phase 4: which option won, from which model, and why.
+- 2026-10-29 (PRJ-035.WEB.D1): Ricardo picked **B, "Scope Map"** by GPT-6 Astra (`design/options/astra/`). Rule: keep the site as the model made it; change only what Ricardo asks or what a check finds.
+- Round 2 (`design/options/astra-v2/`): copy of B with 2 changes. Type steps at least 1.25x apart (body 16 px). Scope map person icon is now a record icon (taste: no people).
