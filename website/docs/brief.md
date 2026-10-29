@@ -76,7 +76,7 @@ Keep the honest reading: Spatie is the safe default for one tenant or one team l
 
 ## Domain, hosting, analytics
 - Site lives in `website/` of this repo. `/website export-ignore` keeps it out of the Composer download. (`confirmed`)
-- Host: Cloudflare Pages, free `*.pages.dev` address. Own domain later. (`confirmed`)
+- Host: Cloudflare Pages, at the final domain `laravel-access-profiles.packages.seisigma.co`. (`confirmed`)
 - Build: root `website/`, command `npm run build`, output `dist`. (plan)
 - Analytics: Cloudflare Web Analytics, cookie-free. (`assumed`)
 - SEO must-haves: title + meta description, Open Graph + Twitter image (the 1280×640 banner), canonical URL, `sitemap.xml`, `robots.txt`, `lang="en"`, JSON-LD `SoftwareSourceCode` (`assumed`; `SoftwareApplication` is the other choice).

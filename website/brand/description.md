@@ -14,7 +14,7 @@ Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant rec
 
 Scoped access profiles for multi-tenant Laravel apps: per-scope assignments, deny rules, validity windows and an audit trail, next to Laravel's Gate.
 
-Website field: `https://laravel-access-profiles.pages.dev` (after the deploy).
+Website field: `https://laravel-access-profiles.packages.seisigma.co`.
 
 ## GitHub topics
 

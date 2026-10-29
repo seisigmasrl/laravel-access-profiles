@@ -9,7 +9,12 @@
         "multi-tenant",
         "access-profiles"
     ],
-    "homepage": "https://github.com/seisigmasrl/laravel-access-profiles",
+    "homepage": "https://laravel-access-profiles.seisigma-srl.workers.dev",
+    "support": {
+        "issues": "https://github.com/seisigmasrl/laravel-access-profiles/issues",
+        "source": "https://github.com/seisigmasrl/laravel-access-profiles",
+        "docs": "https://laravel-access-profiles.seisigma-srl.workers.dev/docs/getting-started/"
+    },
     "license": "MIT",
     "authors": [
         {
