@@ -1,0 +1,15 @@
+---
+// Renders the repo CHANGELOG.md at build time. No copy lives in website/.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('repo', 'changelog');
+if (!entry) throw new Error('CHANGELOG.md was not loaded');
+const { Content, headings } = await render(entry);
+---
+<StarlightPage
+  frontmatter={{ title: 'Changelog', description: 'Every release of Laravel Access Profiles, newest first, from the repository CHANGELOG.md.' }}
+  headings={headings}
+>
+  <Content />
+</StarlightPage>

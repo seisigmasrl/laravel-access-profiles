@@ -1,0 +1,15 @@
+---
+// Renders the repo docs/COMPARISON.md at build time.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('repo', 'docs/comparison');
+if (!entry) throw new Error('docs/COMPARISON.md was not loaded');
+const { Content, headings } = await render(entry);
+---
+<StarlightPage
+  frontmatter={{ title: 'Comparison', description: 'How Laravel Access Profiles compares with other Laravel permission packages, with sources.' }}
+  headings={headings}
+>
+  <Content />
+</StarlightPage>

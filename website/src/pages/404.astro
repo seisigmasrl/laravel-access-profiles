@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/tailwind.css';
+import { readRelease } from '../lib/version.mjs';
+
+const { version } = readRelease();
+---
+<Base title="Page not found · Access Profiles" description="This page does not exist. Go to the Access Profiles home page or the docs." noindex>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main">
+    <section class="wrap py-24 md:py-32">
+      <p class="eyebrow">404</p>
+      <h1 class="max-w-[18ch]">This page does not exist.</h1>
+      <p class="lead mt-6 max-w-[60ch]">The link is old or wrong.</p>
+      <div class="mt-6 flex flex-wrap gap-x-8">
+        <a class="secondary" href="/">Go to the home page <span aria-hidden="true">→</span></a>
+        <a class="secondary" href="/docs/getting-started/">Read the docs <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+  <SiteFooter version={version} />
+</Base>

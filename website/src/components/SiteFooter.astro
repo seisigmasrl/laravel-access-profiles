@@ -1,0 +1,25 @@
+---
+import BrandMark from './BrandMark.astro';
+
+interface Props {
+  version: string;
+}
+const { version } = Astro.props;
+---
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="brand"><BrandMark /><span>Access Profiles</span></div>
+      <div class="footer-links" aria-label="Project resources">
+        <a href="https://github.com/seisigmasrl/laravel-access-profiles">GitHub</a>
+        <a href="https://packagist.org/packages/seisigmasrl/laravel-access-profiles">Packagist</a>
+        <a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/docs/DESIGN.md">Design notes</a>
+        <a href="/docs/changelog/">Changelog</a>
+        <a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/LICENSE.md">MIT license</a>
+        <a href="https://github.com/seisigmasrl/laravel-access-profiles/blob/main/SECURITY.md">Security</a>
+        <a href="/privacy/">Privacy</a>
+      </div>
+    </div>
+    <p class="footer-meta">SEISIGMA SRL • v{version}</p>
+  </div>
+</footer>

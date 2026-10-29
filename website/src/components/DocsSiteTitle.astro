@@ -1,0 +1,16 @@
+---
+// Same lockup as the landing page: the approved mark + "Access Profiles" in Manrope 600.
+import BrandMark from './BrandMark.astro';
+const { siteTitle } = Astro.locals.starlightRoute;
+---
+<a href="/" class="site-title">
+  <BrandMark />
+  <span translate="no">{siteTitle}</span>
+</a>
+
+<style>
+  .site-title { display: flex; align-items: center; gap: .75rem; font-size: 1.125rem; font-weight: 600; color: var(--sl-color-white); text-decoration: none; white-space: nowrap; min-width: 0; }
+  .site-title :global(.brand-mark) { width: 32px; height: 32px; flex: none; }
+  :global([data-theme='dark']) .site-title :global(.brand-mark g) { stroke: #E2E8F0; }
+  :global([data-theme='dark']) .site-title :global(.brand-mark > rect) { fill: #4FB3BD; }
+</style>

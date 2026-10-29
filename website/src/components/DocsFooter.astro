@@ -1,0 +1,12 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+import { readRelease } from '../lib/version.mjs';
+
+const { version } = readRelease();
+---
+<Default />
+<p class="ap-footer-meta">SEISIGMA SRL • v{version}</p>
+
+<style>
+  .ap-footer-meta { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--sl-color-hairline); color: var(--sl-color-gray-3); font-size: var(--sl-text-xs); }
+</style>

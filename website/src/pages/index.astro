@@ -1,0 +1,322 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { readRelease } from '../lib/version.mjs';
+
+const { version } = readRelease();
+---
+<Base title="Access Profiles — Different permissions in different parts of a tenant." description="Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.">
+<a class="skip" href="#main">Skip to content</a>
+<SiteHeader home />
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="release"><span>v{version}</span> Open source · MIT</div>
+        <h1>Different permissions in different parts of a tenant.</h1>
+        <p class="lead">Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.</p>
+        <div class="hero-install">
+          <div class="install-command">
+            <code>composer require seisigmasrl/laravel-access-profiles</code>
+            <button class="copy" type="button" aria-label="Copy Composer install command">Copy</button>
+          </div>
+          <a class="secondary" href="https://github.com/seisigmasrl/laravel-access-profiles">View on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="requirements">PHP 8.3+ · Laravel 12.69+ or 13.30+</p>
+      </div>
+      <div class="code-panel">
+        <div class="code-bar"><span>grant.php</span><div class="code-actions"><span>Assignment</span><button class="copy" type="button" aria-label="Copy grant.php">Copy</button></div></div>
+        <pre class="lines" tabindex="0" aria-label="Grant code example"><code><span class="line">$assignment = Access::grant('reviewer')-&gt;to($user)-&gt;in($team)</span><span class="line">    -&gt;onlyScopes([$site, $otherSite])-&gt;titled('Review cover')</span><span class="line">    -&gt;validFrom(now())-&gt;validUntil(now()-&gt;addMonths(6))</span><span class="line">    -&gt;by($admin)-&gt;because('Cover leave')-&gt;save();</span></code></pre>
+        <div class="code-note"><strong>One assignment.</strong> Selected scopes. A validity window. A reason.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="problem-top">
+        <div><span class="eyebrow">The problem</span><h2>Same person.<br>Same tenant.<br>Different access.</h2></div>
+        <p class="lead">Manager in two sites, read-only in a third. A broad grant in billing, except approving payments. Access needs to describe where a person can act, and where it stops.</p>
+      </div>
+      <figure class="map" data-motion>
+        <!-- The v2 map stays in its approved position. Its sequence is the sole hero moment. -->
+        <svg class="scope-map" viewBox="0 0 1100 410" role="img" aria-labelledby="map-title map-description">
+          <title id="map-title">A holder, an assignment, and scopes within a tenant</title>
+          <desc id="map-description">One person has manager access in site 1 and site 2, and read-only access in site 3. Payment approval is denied in site 4. Assignments record validity dates, grantor and reason. A matching deny always wins.</desc>
+          <g class="map-connectors">
+            <path class="wire draw" pathLength="1" d="M210 194H260"/>
+            <path class="wire draw" pathLength="1" style="--delay:600ms" d="M510 194H580"/>
+            <circle cx="580" cy="194" r="4" fill="var(--accent)"/>
+          </g>
+          <g class="map-holder">
+            <text x="16" y="38" class="label">01 / HOLDER</text>
+            <rect class="panel" x="16" y="110" width="194" height="168" rx="12"/>
+            <rect x="34" y="136" width="44" height="44" rx="6" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+            <path d="M42 150H70M42 158H64M42 166H58" stroke="var(--ink)" stroke-width="1.5"/>
+            <text x="34" y="220" class="title">Same person</text>
+            <text x="34" y="247" class="small">Your Eloquent model</text>
+          </g>
+          <g class="map-assignment">
+            <text x="260" y="38" class="label">02 / ASSIGNMENT</text>
+            <rect class="allowed" x="260" y="90" width="250" height="208" rx="12"/>
+            <text x="280" y="124" class="title">Profile + scope set</text>
+            <text x="280" y="155" class="small">Whole tenant or selected scopes</text>
+            <path d="M280 173H490" stroke="var(--accent)" stroke-opacity=".4"/>
+            <text x="280" y="202">Valid from → valid until</text>
+            <text x="280" y="232" class="small">Who granted access</text>
+            <text x="280" y="260" class="small">Why access was granted</text>
+          </g>
+          <g class="map-tenant">
+            <text x="580" y="38" class="label">03 / TENANT → SCOPES</text>
+            <rect class="tenant" x="580" y="62" width="504" height="316" rx="16"/>
+            <text x="602" y="98" class="title">Team</text>
+            <text x="1062" y="96" text-anchor="end" class="small">Your Eloquent model</text>
+            <g class="grant-cell">
+              <rect class="allowed" x="602" y="120" width="220" height="106" rx="8"/>
+              <text x="620" y="150" class="small">Site 1</text>
+              <text x="620" y="183" class="title accent">Manager</text>
+            </g>
+            <g class="grant-cell">
+              <rect class="allowed" x="840" y="120" width="220" height="106" rx="8"/>
+              <text x="858" y="150" class="small">Site 2</text>
+              <text x="858" y="183" class="title accent">Manager</text>
+            </g>
+            <rect class="panel" x="602" y="242" width="220" height="112" rx="8"/>
+            <text x="620" y="272" class="small">Site 3</text>
+            <text x="620" y="306" class="title">Read-only</text>
+            <rect class="denied" x="840" y="242" width="220" height="112" rx="8"/>
+            <text x="858" y="272" class="small">Site 4 · billing</text>
+            <text x="858" y="303" class="negative" font-weight="700">Payment approval</text>
+            <text x="858" y="330" class="negative">Deny wins</text>
+            <g class="scope-route map-connectors" aria-hidden="true">
+              <path class="wire draw" pathLength="1" style="--delay:600ms" d="M580 194H591V112H712V120M712 112H950V120"/>
+            </g>
+          </g>
+          <g class="map-mobile scope-route" aria-hidden="true">
+            <path class="wire draw" pathLength="1" d="M204 194H224"/>
+          </g>
+          <g class="map-mobile scope-route" aria-hidden="true">
+            <path class="wire draw" pathLength="1" style="--delay:600ms" d="M349 298V321H21V402H142V410M142 402H380V410"/>
+          </g>
+        </svg>
+        <figcaption class="diagram-caption"><span>The scope map · different assignments can cover different scopes.</span><span>No matching rule → access denied.</span></figcaption>
+      </figure>
+      <div class="problem-list" data-motion>
+        <p style="--i:0">Access can be temporary or appointed.<span>An external auditor until a date. A title such as “Board treasurer”.</span></p>
+        <p style="--i:1">A broad grant can have one hole.<span>Everything in billing, except approving payments.</span></p>
+        <p style="--i:2">“Who can approve payments in site 4?”<span>That must be a query, not a loop over every user.</span></p>
+        <p style="--i:3">“Who gave this person access, and why?”<span>The answer belongs with the assignment.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Follow the scope map</span><h2 class="heading-motion" data-motion>Explicit boundaries.<br>Predictable decisions.</h2><p class="lead">Tenants, scopes and holders are your own Eloquent models. Profiles combine allow and deny rules. Assignments connect them.</p></div>
+      <div class="values">
+        <article class="value"><span class="step-number">01</span><div><h3>Access per scope set, not per tenant.</h3><p>One assignment covers the whole tenant or a chosen list of scopes.</p></div><div class="value-aside"><b>Assignment → scope cells</b><code>grant.php</code> selects the scopes.</div></article>
+        <article class="value"><span class="step-number">02</span><div><h3>Deny wins. Default is no.</h3><p>Any matching deny beats every allow, in any order. With no rule, the answer is false.</p></div><div class="value-aside"><b>The denied cell</b><code>profile.php</code> combines allow and deny.</div></article>
+        <article class="value"><span class="step-number">03</span><div><h3>Access that ends on time, without a scheduler.</h3><p>Start dates are inclusive, end dates exclusive. The cache TTL stops at the next boundary.</p></div><div class="value-aside"><b>The assignment’s dates</b><code>grant.php</code> sets the validity window.</div></article>
+        <article class="value"><span class="step-number">04</span><div><h3>Who, why, and when — on every grant.</h3><p>Each assignment stores the grantor and the reason. Revoked rows stay as history. Write events fire after commit.</p></div><div class="value-aside"><b>The assignment’s record</b><code>grant.php</code> records who and why.<br><code>query.php</code> retrieves history.</div></article>
+        <article class="value"><span class="step-number">05</span><div><h3>“Who can do X here?” is one query.</h3><p><code>Access::holders()</code> applies deny, scope, validity and conditions, and returns a builder you can paginate.</p></div><div class="value-aside"><b>From a scope back to holders</b><code>query.php</code> asks who has access.</div></article>
+        <article class="value"><span class="step-number">06</span><div><h3>Safe grants by default.</h3><p>Guards reject self-assignment and escalation. Scopes must belong to the tenant. Rejections write nothing.</p></div><div class="value-aside"><b>The tenant boundary</b><code>grant.php</code> names the tenant, scopes and grantor.</div></article>
+        <article class="value"><span class="step-number">07</span><div><h3>No global tenant state, no owner bypass.</h3><p>Every check takes a target. Safe with Octane and queued jobs. Owners get a full profile like anyone else.</p></div><div class="value-aside"><b>A specific scope, every time</b><code>check.php</code> passes the target.</div></article>
+        <article class="value"><span class="step-number">08</span><div><h3>Small footprint, tested docs.</h3><p>PHP and 8 <code>illuminate/*</code> packages only. Every README example has a behaviour test.</p></div><div class="value-aside"><b>Your models, Laravel’s foundation</b>Each value point has a test in the repo.</div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Code walk-through</span><h2>From a profile to an answer.</h2><p class="lead">Access Profiles works next to Laravel’s Gate. <code>$user-&gt;can()</code> and Gate keep their normal behaviour; your policies call <code>canAccess()</code>.</p></div>
+      <div class="walk">
+        <div class="walk-row" data-motion>
+          <div class="walk-text"><span class="eyebrow">01 / Define</span><h3>Allow a group. Deny an action.</h3><p>A profile combines rules. A matching deny wins.</p></div>
+          <div class="code-panel"><div class="code-bar"><span>profile.php</span><div class="code-actions"><span>Profile</span><button class="copy" type="button" aria-label="Copy profile.php">Copy</button></div></div><pre tabindex="0"><code>$profile = Access::profile('reviewer')-&gt;in($team)
+    -&gt;allow('billing.*')-&gt;deny('billing.invoice.approve')
+    -&gt;by($admin)-&gt;because('Keep approvals separate')-&gt;save();</code></pre></div>
+        </div>
+        <div class="walk-row" data-motion style="--step-delay:calc(var(--dur-ui) + var(--stagger))">
+          <svg class="walk-connector" viewBox="0 0 2 32" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 0V32"/></svg>
+          <div class="walk-text"><span class="eyebrow">02 / Grant</span><h3>Choose where and when.</h3><p>Assign the profile to a holder, with selected scopes, dates and a reason.</p></div>
+          <div class="code-panel"><div class="code-bar"><span>grant.php</span><div class="code-actions"><span>Assignment</span><button class="copy" type="button" aria-label="Copy grant.php">Copy</button></div></div><pre tabindex="0"><code>$assignment = Access::grant('reviewer')-&gt;to($user)-&gt;in($team)
+    -&gt;onlyScopes([$site, $otherSite])-&gt;titled('Review cover')
+    -&gt;validFrom(now())-&gt;validUntil(now()-&gt;addMonths(6))
+    -&gt;by($admin)-&gt;because('Cover leave')-&gt;save();</code></pre></div>
+        </div>
+        <div class="walk-row" data-motion style="--step-delay:calc(var(--dur-ui) + 2 * var(--stagger))">
+          <svg class="walk-connector" viewBox="0 0 2 32" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 0V32"/></svg>
+          <div class="walk-text"><span class="eyebrow">03 / Check</span><h3>Ask about a target.</h3><p>Check access, or explain the decision.</p></div>
+          <div class="code-panel"><div class="code-bar"><span>check.php</span><div class="code-actions"><span class="answer">Decision</span><button class="copy" type="button" aria-label="Copy check.php">Copy</button></div></div><pre tabindex="0"><code>$allowed = Access::for($user)-&gt;can('billing.invoice.view', $site);
+$sameAnswer = $user-&gt;canAccess('billing.invoice.view', $site);
+$decision = Access::for($user)-&gt;explain('billing.invoice.approve', $site);</code></pre></div>
+        </div>
+        <div class="walk-row" data-motion style="--step-delay:calc(var(--dur-ui) + 3 * var(--stagger))">
+          <svg class="walk-connector" viewBox="0 0 2 32" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 0V32"/></svg>
+          <div class="walk-text"><span class="eyebrow">04 / Query</span><h3>Find holders. Read history.</h3><p>Query access with scope, validity, conditions and deny rules applied.</p></div>
+          <div class="code-panel"><div class="code-bar"><span>query.php</span><div class="code-actions"><span>Holders + history</span><button class="copy" type="button" aria-label="Copy query.php">Copy</button></div></div><pre tabindex="0"><code>$holders = Access::holders('billing.invoice.view', $site);
+$count = Access::holdersQuery('billing.invoice.view', $site)-&gt;count();
+$history = Access::history($user, $team);</code></pre></div>
+        </div>
+        <div class="walk-row" data-motion style="--step-delay:calc(var(--dur-ui) + 4 * var(--stagger))">
+          <svg class="walk-connector" viewBox="0 0 2 32" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 0V32"/></svg>
+          <div class="walk-text"><span class="eyebrow">05 / Render</span><h3>Use the same check in Blade.</h3><p>Pass the permission and its target.</p></div>
+          <div class="code-panel"><div class="code-bar"><span>Blade</span><div class="code-actions"><span>View</span><button class="copy" type="button" aria-label="Copy Blade example">Copy</button></div></div><pre tabindex="0"><code>@canAccess('billing.invoice.view', $site)
+View invoices
+@endcanAccess</code></pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Comparison</span><h2 class="heading-motion" data-motion>Choose for the access model you have.</h2><p class="lead">Access Profiles is new. Scope sets, deny rules and grant history are reasons to consider it. Other models may need less.</p></div>
+      <p class="table-hint" id="table-hint">Checked on 2026-10-28. Scroll inside the table to compare packages; row labels stay visible.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Package comparison" aria-describedby="table-hint">
+        <table>
+          <caption>Versions: Access Profiles 0.1.0 · spatie/laravel-permission 8.3.2 · silber/bouncer v1.0.4 · santigarcor/laratrust 8.5.6 · Laravel 13.x Gate</caption>
+          <thead><tr><th scope="col">Capability</th><th scope="col">Access Profiles</th><th scope="col">spatie/laravel-permission</th><th scope="col">Bouncer</th><th scope="col">Laratrust</th><th scope="col">Gate + policies</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Multi-tenant scope</th><td>Tenant + scopes inside it</td><td>One team dimension</td><td>One tenant id per request</td><td>One team, passed per call</td><td>You write it</td></tr>
+            <tr><th scope="row">One assignment → a set of scopes</th><td>Yes</td><td>—</td><td>—</td><td>—</td><td>You write it</td></tr>
+            <tr><th scope="row">Deny</th><td>Yes, deny wins</td><td>—</td><td>Yes, <code>forbid()</code></td><td>—</td><td>You write it</td></tr>
+            <tr><th scope="row">Validity window</th><td><code>valid_from</code> / <code>valid_until</code></td><td>—</td><td>—</td><td>—</td><td>You write it</td></tr>
+            <tr><th scope="row">Grantor + reason audit</th><td>Yes, plus write events</td><td>—</td><td>—</td><td>—</td><td>You write it</td></tr>
+            <tr><th scope="row">“Who can do X here?”</th><td><code>Access::holders()</code></td><td><code>User::permission()</code> for the current team</td><td>By role only</td><td><code>whereHasPermission()</code></td><td>Loop over users</td></tr>
+            <tr><th scope="row">Global tenant state</th><td>None; target per check</td><td>Global team id</td><td>Static scope</td><td>None</td><td>None</td></tr>
+            <tr><th scope="row">Owner / super-admin</th><td>No bypass</td><td><code>Gate::before</code></td><td><code>everything()</code></td><td>Role check</td><td><code>Gate::before</code></td></tr>
+            <tr><th scope="row">Laravel versions</th><td>12.69+, 13.30+</td><td>12, 13</td><td>11, 12, 13</td><td>10, 11, 12, 13</td><td>—</td></tr>
+            <tr><th scope="row">Maintenance</th><td>New</td><td>Active</td><td>Slow (about one release a year)</td><td>Active</td><td>Laravel core</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="honest"><h3>An honest reading</h3><p>spatie/laravel-permission is the safe default for one tenant or one team level, with the biggest community. Bouncer is the closest in spirit (it has deny). Laratrust passes the team explicitly. Plain Gate + policies is enough when roles are few and fixed.</p><a href="/docs/comparison/">Full comparison with sources <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><span class="eyebrow">Fit matters</span><h2 class="heading-motion" data-motion>When not to use it</h2></div>
+      <ul class="not-list">
+        <li>One tenant or one flat team level → consider spatie/laravel-permission.</li>
+        <li>A few fixed roles → Laravel's Gates and policies may be enough.</li>
+        <li>Record-level rules → keep them in a policy.</li>
+        <li>An admin UI out of the box → build your own screens.</li>
+        <li>A mature, proven package today → this package is new. Review it before relying on it for access control.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><span class="eyebrow">Install</span><h2 class="heading-motion" data-motion>Start with your permission catalogue.</h2><p class="lead">Choose table names before migrating.</p><p class="requirements">PHP 8.3+<br>Laravel 12.69+ or 13.30+<br>Namespace: <code>Seisigma\AccessProfiles</code></p></div>
+      <ol class="install-list">
+        <li><div class="install-command"><code>composer require seisigmasrl/laravel-access-profiles</code><button class="copy" type="button" aria-label="Copy Composer install command">Copy</button></div></li>
+        <li><div class="install-command"><code>php artisan vendor:publish --tag=access-profiles-config</code><button class="copy" type="button" aria-label="Copy publish configuration command">Copy</button></div></li>
+        <li><div class="install-command"><code>php artisan vendor:publish --tag=access-profiles-migrations</code><button class="copy" type="button" aria-label="Copy publish migrations command">Copy</button></div></li>
+        <li><p class="install-instruction">Configure the permission catalogue and templates. Choose table names before migrating.</p></li>
+        <li><div class="install-command"><code>php artisan migrate</code><button class="copy" type="button" aria-label="Copy migration command">Copy</button></div></li>
+        <li><div class="install-command"><code>php artisan access-profiles:sync-templates</code><button class="copy" type="button" aria-label="Copy sync templates command">Copy</button></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><span class="eyebrow">FAQ</span><h2 class="heading-motion" data-motion>A few boundaries,<br>made explicit.</h2></div>
+      <div>
+        <details open><summary>Does it replace Laravel's Gate?</summary><p>No. Gate and <code>$user-&gt;can()</code> keep their normal behaviour. Call <code>canAccess()</code> or <code>Access::for()</code> from a policy.</p></details>
+        <details><summary>Is there a super-admin or owner bypass?</summary><p>No. An owner gets a full profile like everyone else.</p></details>
+        <details><summary>Is it safe with Octane and queues?</summary><p>There is no global tenant state. Every check takes a target. Jobs re-check when they run.</p></details>
+        <details><summary>Do I need a scheduler for expiry?</summary><p>No. The cache stops at the next validity boundary.</p></details>
+        <details><summary>Does it ship an admin UI?</summary><p>No. Build your own screens.</p></details>
+        <details><summary>Does it work with Sanctum tokens?</summary><p>Optional. With <code>token_intersection</code>, a token can only narrow access. No Sanctum dependency.</p></details>
+        <details><summary>Can I move from another permission package?</summary><p>Yes. Write a <code>BackfillSource</code> and run <code>access-profiles:backfill --dry-run</code> first.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <div class="closing-inner">
+        <span class="eyebrow">Access Profiles</span>
+        <h2 class="heading-motion" data-motion>A tenant. Its scopes.<br>Access with boundaries.</h2>
+        <p>Allow and deny. Grant and revoke. Keep the reason.</p>
+        <div class="install-command"><code>composer require seisigmasrl/laravel-access-profiles</code><button class="copy" type="button" aria-label="Copy Composer install command">Copy</button></div>
+        <a class="secondary" href="/docs/getting-started/">Read the docs <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<SiteFooter version={version} />
+<div class="sr-only" role="status" aria-live="polite" id="copy-status"></div>
+<script is:inline>
+(()=>{
+const $=s=>document.querySelector(s),all=s=>document.querySelectorAll(s);
+const map=$('.scope-map'),narrow=matchMedia('(max-width:700px)');
+const size=()=>map.setAttribute('viewBox',narrow.matches?'0 0 540 690':'0 0 1100 410');
+size();narrow.addEventListener('change',size);
+const status=$('#copy-status');
+all('.copy').forEach(b=>{
+b.innerHTML='<span class="copy-label">Copy</span><span class="copy-feedback" aria-hidden="true"><svg viewBox="0 0 14 10"><path d="M1 5l4 4 8-8"/></svg>Copied</span>';
+let timer,busy=false;
+b.addEventListener('click',async()=>{
+if(busy)return;busy=true;clearTimeout(timer);
+const code=b.closest('.install-command,.code-panel').querySelector('code');
+const lines=code.querySelectorAll('.line');
+const text=lines.length?[...lines].map(l=>l.textContent).join('\n'):code.textContent;
+let ok=false;
+try{await navigator.clipboard.writeText(text);ok=true;}catch(e){
+const area=document.createElement('textarea');
+area.value=text;area.style.cssText='position:fixed;opacity:0;pointer-events:none';
+document.body.append(area);area.select();
+try{ok=document.execCommand('copy');}catch(e){}
+area.remove();b.focus({preventScroll:true});
+}
+b.classList.toggle('is-copied',ok);
+status.textContent=ok?'Copied to clipboard.':'Copy failed. Select the code and use your device’s copy command.';
+timer=setTimeout(()=>{b.classList.remove('is-copied');status.textContent='';},1500);
+busy=false;
+});
+});
+const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+let observer;
+const show=el=>{el.classList.remove('pending');el.classList.add('entered');};
+if(!reduced.matches&&'IntersectionObserver'in window){
+observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting){show(e.target);observer.unobserve(e.target);}});
+},{threshold:0.08});
+all('[data-motion]').forEach(el=>{el.classList.add('pending');observer.observe(el);});
+}
+document.documentElement.classList.add('js');
+const stop=()=>{
+if(!reduced.matches)return;
+if(observer)observer.disconnect();
+all('[data-motion]').forEach(el=>el.classList.remove('pending','entered'));
+};
+reduced.addEventListener('change',stop);
+document.addEventListener('focusin',e=>{
+const el=e.target.closest('[data-motion]');
+if(el){el.classList.remove('pending','entered');if(observer)observer.unobserve(el);}
+});
+window.addEventListener('beforeprint',()=>{
+if(observer)observer.disconnect();
+all('[data-motion]').forEach(el=>el.classList.remove('pending','entered'));
+});
+})();
+</script>
+<noscript>
+<style>
+@media (max-width:700px) {
+  .scope-map { aspect-ratio:1100 / 410; }
+  .map-holder,.map-assignment,.map-tenant { transform:none; }
+  .map-connectors { display:inline; }
+  .map-mobile { display:none; }
+}
+</style>
+</noscript>
+</Base>
