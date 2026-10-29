@@ -2,6 +2,13 @@
 
 All notable changes to this package are listed here. See [RELEASING.md](RELEASING.md) for how each release fills this file.
 
+## 0.1.2 - 2026-10-29
+
+### Changed
+
+- Permission keys may have 2 to 4 lower snake segments. Wildcards match keys at any depth below their prefix.
+- Docs: the README is shorter. The detail lives on the docs site.
+
 ## 0.1.1 - 2026-10-29
 
 ### Changed
