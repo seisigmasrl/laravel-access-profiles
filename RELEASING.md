@@ -14,4 +14,14 @@ Every release follows these steps. The website reads the version from `CHANGELOG
 3. Tag the merge commit and push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
    The `changelog-guard` workflow fails when `CHANGELOG.md` has no `## X.Y.Z - YYYY-MM-DD` heading.
 4. Create the GitHub Release for the tag. Copy the notes from the `CHANGELOG.md` entry.
-5. Packagist updates from the tag. The website rebuilds on the push to `main` and shows the new version and changelog.
+5. Packagist updates from the tag. The website rebuilds on the push to `main` and shows the new changelog.
+6. Run the `website` workflow by hand (Actions → website → Run workflow) so the footer shows the new version.
+
+## Deploy
+
+The `website` workflow builds `website/` and deploys `website/dist` to Cloudflare Pages.
+
+- It runs on a push to `main` that changes `website/**` or `CHANGELOG.md`, or by hand (`workflow_dispatch`).
+- It needs two repository secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- It deploys to the Pages project `laravel-access-profiles`. Create that project once in Cloudflare before the first run.
+- After a release tag, run the workflow by hand so the footer shows the new version.
