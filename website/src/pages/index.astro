@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { readRelease } from '../lib/version.mjs';
+import { readVersion } from '../lib/version.mjs';
 
-const { version } = readRelease();
+const version = await readVersion();
 ---
 <Base title="Access Profiles — Different permissions in different parts of a tenant." description="Scoped access profiles for multi-tenant Laravel apps. Deny wins. Every grant records who gave it and why.">
 <a class="skip" href="#main">Skip to content</a>

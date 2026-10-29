@@ -3,9 +3,9 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/tailwind.css';
-import { readRelease } from '../lib/version.mjs';
+import { readVersion } from '../lib/version.mjs';
 
-const { version } = readRelease();
+const version = await readVersion();
 
 // What the visitor receives: our own artwork and two OFL fonts.
 const shipped = [

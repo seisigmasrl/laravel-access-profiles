@@ -3,9 +3,9 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/tailwind.css';
-import { readRelease } from '../lib/version.mjs';
+import { readVersion } from '../lib/version.mjs';
 
-const { version } = readRelease();
+const version = await readVersion();
 ---
 <Base title="Page not found · Access Profiles" description="This page does not exist. Go to the Access Profiles home page or the docs." noindex>
   <a class="skip" href="#main">Skip to content</a>

@@ -3,9 +3,9 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/tailwind.css';
-import { readRelease } from '../lib/version.mjs';
+import { readVersion } from '../lib/version.mjs';
 
-const { version } = readRelease();
+const version = await readVersion();
 ---
 <Base title="Privacy · Access Profiles" description="The Access Profiles website sets no cookies, has no forms and no accounts, and collects no personal data.">
   <a class="skip" href="#main">Skip to content</a>
