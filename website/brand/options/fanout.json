@@ -1,0 +1,38 @@
+[
+  {
+    "id": "opus",
+    "label": "Claude Opus 5.5",
+    "assigned": {
+      "style": "combination",
+      "technique": "geometric-grid"
+    },
+    "ok": true,
+    "missing": [],
+    "exit": 0,
+    "ms": 30297
+  },
+  {
+    "id": "astra",
+    "label": "GPT-6 Astra",
+    "assigned": {
+      "style": "symbol",
+      "technique": "negative-space"
+    },
+    "ok": true,
+    "missing": [],
+    "exit": 0,
+    "ms": 44889
+  },
+  {
+    "id": "argon",
+    "label": "Gemini 4 Argon",
+    "assigned": {
+      "style": "combination",
+      "technique": "monoline"
+    },
+    "ok": true,
+    "missing": [],
+    "exit": 0,
+    "ms": 366534
+  }
+]

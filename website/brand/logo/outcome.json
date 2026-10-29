@@ -1,0 +1,69 @@
+{
+  "skill": "logo-designer",
+  "version": "0.1.0",
+  "request": "brand/logo-brief.md",
+  "status": "approved",
+  "approved_by": "owner",
+  "artifact": "https://claude.ai/artifact/5QjBdktMmEZZ9kte3bPX3a",
+  "files": [
+    {
+      "path": "brand/logo/logo.svg",
+      "sha256": "52fe478786a976ea8f5bfa7c243a5979cd5a87953f03367127bcec7f5a0aa956"
+    },
+    {
+      "path": "brand/logo/logo-mono.svg",
+      "sha256": "0754497d7656343b6f23c5869730a80b6a874a947daff0269918c0f4baa90f53"
+    },
+    {
+      "path": "brand/logo/logo-white.svg",
+      "sha256": "00648bf2cd2aa4f35b0d22c55a4e38b4fea6f817c1f83b90d0c81566f41512bf"
+    },
+    {
+      "path": "brand/logo/mark.svg",
+      "sha256": "93ae2feee9f43c3e012c044b819b0baab4fe7ab1a1662fa7af746a738053f139"
+    },
+    {
+      "path": "brand/logo/favicon.svg",
+      "sha256": "93ae2feee9f43c3e012c044b819b0baab4fe7ab1a1662fa7af746a738053f139"
+    },
+    {
+      "path": "brand/logo/favicon-16.png",
+      "sha256": "7733ac9c7f684cd571d2b8361e8023a12ed15e42409fb15f7c34a011f16c3438"
+    },
+    {
+      "path": "brand/logo/favicon-32.png",
+      "sha256": "6b1598581fc6d1fbe4c99194255b7d6297b5a208b0f2be986fdadc2208bca540"
+    },
+    {
+      "path": "brand/logo/apple-touch-icon.png",
+      "sha256": "ba8ee3c13508e1185923a1d4a1d3a80a10c15a794a6b76dd4549ff1a680d9436"
+    },
+    {
+      "path": "brand/logo/icon-512.png",
+      "sha256": "c6a213b9ff60402499047e2e6cd24641b1e5b4550c491452cc2cc5261f559f35"
+    },
+    {
+      "path": "brand/logo/og-image.svg",
+      "sha256": "c584dbbf7e6d78b385ba3b495c8a42a6d5cab9028b175c98a2ff5e57cbeb8fae"
+    },
+    {
+      "path": "brand/logo/og-image.png",
+      "sha256": "8f09773df3fc1d5fff00e8d3bf1ed1652bcc08b44a231bf18c449f2712b81d52"
+    }
+  ],
+  "decisions": [
+    "Ricardo picked Opus Scoped Grid; dark style removed; letters outlined in Manrope 600"
+  ],
+  "checks": [
+    {
+      "name": "logo-check-final",
+      "result": "pass",
+      "detail": [
+        "mark 16px spread 0.323",
+        "lockup colors #1e293b #1f6f78"
+      ]
+    }
+  ],
+  "cost_usd": null,
+  "minutes": 40
+}

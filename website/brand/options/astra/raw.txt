@@ -1,0 +1,85 @@
+<!-- direction: Connected Scopes; why: style: symbol; technique: negative-space;
+Two scoped openings share a passage inside one tenant boundary.
+A calm, single-color silhouette keeps the hidden connection clear at favicon size. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 64" data-part="lockup">
+  <path fill="#287D85" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+  <text x="76" y="42" fill="currentColor" font-family="Inter, sans-serif" font-size="30" font-weight="500" letter-spacing="-0.7">Access Profiles</text>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-part="mark">
+  <path fill="#287D85" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 64" data-part="mono">
+  <path fill="currentColor" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+  <text x="76" y="42" fill="currentColor" font-family="Inter, sans-serif" font-size="30" font-weight="500" letter-spacing="-0.7">Access Profiles</text>
+</svg>
+--- stderr ---
+granted it and why.
+
+## Feel
+Safe, precise, calm (owner, confirmed).
+
+## Styles and techniques (owner)
+- Styles: combination, symbol.
+- Techniques: geometric-grid, negative-space, monoline.
+- Assignment: opus = combination:geometric-grid · astra = symbol:negative-space · argon = combination:monoline.
+
+## Color
+- Light and dark both (site follows the visitor's system). Mark must work in one color.
+- One calm accent: cool blue-green or slate-blue. Neutrals for the rest.
+- Avoid Laravel red as the main color (it would read as an official Laravel product).
+
+## Type
+Modern sans for the name (the site uses a modern sans + a mono for code). No serif.
+
+## Never
+- The Laravel logo or anything close to it. Any real brand's mark.
+- A generic padlock, a plain key or a stock shield icon used alone.
+- Mascots, gradients, glow, 3D, more than 2 colors in the mark.
+
+## Where used
+Favicon (16, 32 px), GitHub org/repo avatar, 1280×640 GitHub social preview, README header, site header, Open Graph card.
+
+## Likes (taste only, never copy)
+pestphp.com (clarity), inertiajs.com (precision), livewire.laravel.com (calm).
+
+## Choice
+(Filled after the owner picks.)
+
+
+## Your assigned direction
+The other models draw other directions. Stay inside yours, so the owner gets real choices.
+- Style: Symbol. An abstract or simple picture mark that carries the idea; the name is set plainly next to it. Watch: Avoid cliches the brief lists. The symbol must survive at 16 px.
+- Technique: Negative space. Hide a second shape in the gap between two shapes or inside a letter. The hidden shape carries the idea.
+- Start the note with: style: symbol; technique: negative-space;
+
+## Output rules
+- Do not run tools, commands or write files. Print the whole answer as plain text.
+- Answer with exactly 3 complete <svg> elements and one short note. Nothing else.
+- Each <svg> has xmlns="http://www.w3.org/2000/svg", a viewBox, and a data-part attribute:
+  - data-part="lockup": the full logo (mark + name, or the wordmark alone) in full color.
+  - data-part="mark": the smallest form, for a 16 px favicon. Square viewBox (for example 0 0 64 64).
+  - data-part="mono": the lockup in ONE color only. Use fill="currentColor" so it works on light and dark.
+- Draw letters as <path> when you can. If you use <text>, name a Google Font in font-family.
+- No <image>, no <script>, no <foreignObject>, no links to other files, no gradients unless the brief asks.
+- At most 4 colors. The main color must be readable on white (contrast 3:1 or more).
+- Keep each SVG under 15 KB.
+- Before the SVGs, write a note in an HTML comment: <!-- direction: <name>; why: <3 short lines> -->
+- Use only facts from the brief. No invented taglines.
+
+[35m[3mcodex[0m[0m
+<!-- direction: Connected Scopes; why: style: symbol; technique: negative-space;
+Two scoped openings share a passage inside one tenant boundary.
+A calm, single-color silhouette keeps the hidden connection clear at favicon size. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 64" data-part="lockup">
+  <path fill="#287D85" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+  <text x="76" y="42" fill="currentColor" font-family="Inter, sans-serif" font-size="30" font-weight="500" letter-spacing="-0.7">Access Profiles</text>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-part="mark">
+  <path fill="#287D85" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 64" data-part="mono">
+  <path fill="currentColor" fill-rule="evenodd" d="M16 8H48Q56 8 56 16V48Q56 56 48 56H16Q8 56 8 48V16Q8 8 16 8ZM16 16V48H28V36H36V48H48V16H36V28H28V16Z"/>
+  <text x="76" y="42" fill="currentColor" font-family="Inter, sans-serif" font-size="30" font-weight="500" letter-spacing="-0.7">Access Profiles</text>
+</svg>
+[2mtokens used[0m
+6,457
